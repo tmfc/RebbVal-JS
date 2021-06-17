@@ -6,6 +6,7 @@ export default class EvalVisitor extends RebbValVisitor
 {
     obj = null;
     obj_type = null;
+    obj_constructor_name = "";
     values = {};
 
     valid = false;
@@ -13,6 +14,10 @@ export default class EvalVisitor extends RebbValVisitor
 
     constructor(obj) {
         super();
+        this.setObject(obj);
+    }
+    setObject(obj)
+    {
         this.obj = obj;
         this.obj_type = typeof this.obj;
     }
@@ -32,10 +37,9 @@ export default class EvalVisitor extends RebbValVisitor
         return this.valid;
     }
 
-    setObject(obj)
+    isDate(d)
     {
-        this.obj = obj;
-        this.obj_type = typeof this.obj;
+        return typeof d === "object" && d.constructor.name === 'Date';
     }
 
     getError()
@@ -153,6 +157,17 @@ export default class EvalVisitor extends RebbValVisitor
         return super.visitNumber(ctx);
     }
 
+    visitDate(ctx) {
+        try {
+            let date =new Date(ctx.DateLiteral().getText());
+            this.setValue(ctx, date);
+        } catch (e) {
+            this.setValue(ctx, null);
+            this.error = e.message;
+        }
+        return super.visitDate(ctx);
+    }
+
     doCompare(obj, value, type)
     {
         let result = false;
@@ -207,20 +222,15 @@ export default class EvalVisitor extends RebbValVisitor
 
             }
         }
-        // else if(this.obj instanceof Date && l_value instanceof Date && r_value instanceof Date)
-        // {
-        //     Date obj = (Date)this.obj;
-        //     Date l = (Date)l_value;
-        //     Date r = (Date)r_value;
-        //
-        //     if(obj.compareTo(l) >= 0 && obj.compareTo(r) <= 0) {
-        //         setValue(ctx, true);
-        //     }
-        //     else {
-        //         setValue(ctx, false);
-        //         this.valid = false;
-        //     }
-        // }
+        else if(this.isDate(this.obj) && this.isDate(l_value) && this.isDate(r_value))
+        {
+            if(this.obj.getTime() >= l_value.getTime() && this.obj.getTime() <= r_value.getTime()) {
+                this.setValue(ctx, true);
+            }
+            else {
+                this.setValue(ctx, false);
+            }
+        }
         else
         {
             this.setValue(ctx, false);
@@ -237,20 +247,14 @@ export default class EvalVisitor extends RebbValVisitor
         let r_value = this.getValue(ctx.expression(1));
         if(this.obj_type === "number" && typeof l_value === "number" && typeof r_value === "number")
         {
-            let obj = this.obj;
-
             let result = this.doIntervalCompare(this.obj, l_value, r_value, ctx.start.text, ctx.end.text);
             this.setValue(ctx, result);
         }
-        // else if(l_value instanceof Date && r_value instanceof Date && this.obj instanceof Date)
-        // {
-        //     Date obj = (Date)this.obj;
-        //     Date l = (Date)l_value;
-        //     Date r = (Date)r_value;
-        //
-        //     boolean result = doIntervalCompare(obj, l, r, ctx.start.getText(), ctx.end.getText());
-        //     setValue(ctx, result);
-        // }
+        else if(this.isDate(this.obj) && this.isDate(l_value) && this.isDate(r_value))
+        {
+            let result = this.doIntervalCompare(this.obj, l_value, r_value, ctx.start.text, ctx.end.text);
+            this.setValue(ctx, result);
+        }
         else{
             this.setValue(ctx, false);
             this.error = "UnsupportedObjectType";
@@ -260,6 +264,13 @@ export default class EvalVisitor extends RebbValVisitor
 
     doIntervalCompare(obj, l, r, start, end)
     {
+        if(this.isDate(obj))
+        {
+            obj = obj.getTime();
+            l = l.getTime();
+            r = r.getTime();
+        }
+
         let startResult = false;
         let endResult = false;
         if(start === "(" || start === "]")

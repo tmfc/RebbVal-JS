@@ -64,4 +64,18 @@ describe('RebbVal', function() {
             assert.ok(v.val(23, '(18..60)'));
         });
     });
+
+    describe('#dateBetween', function() {
+        let v = new RebbVal();
+        it('2000-01-01 should between 1999-01-01 and 2001-01-01', function () {
+            assert.ok(v.val(v.date('2000-01-01'), 'between 1999-01-01 and 2001-01-01'));
+        });
+    });
+
+    describe('#dateInterval', function() {
+        let v = new RebbVal();
+        it('2000-01-01 should match (1999-01-01..2001-01-01)', function () {
+            assert.ok(v.val(v.date('2000-01-01'), '(1999-01-01..2001-01-01)'));
+        });
+    });
 });

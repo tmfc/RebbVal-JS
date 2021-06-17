@@ -12,6 +12,11 @@ export default class RebbVal
         this.errors = [];
     }
 
+    date(date_str)
+    {
+        return new Date(date_str);
+    }
+
     val(object, condition)
     {
         this.errors = [];
