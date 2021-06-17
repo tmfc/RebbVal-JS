@@ -1,0 +1,23 @@
+{
+  "name": "rebbval-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "RebbVal.js",
+  "type": "module",
+  "scripts": {
+    "test": "mocha"
+  },
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6"
+  },
+  "include": [
+    "**/*.spec.ts"
+  ],
+  "author": "William Jin",
+  "license": "ISC",
+  "dependencies": {
+    "antlr4": "^4.9.2",
+    "mocha": "^9.0.0"
+  }
+}
