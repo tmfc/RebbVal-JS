@@ -49,9 +49,19 @@ describe('RebbVal', function() {
             assert.equal(1, v.getErrors().length);
             assert.equal("8.8 =10 failed", v.getErrors()[0]);
         });
-
-
     });
 
+    describe('#numberBetween', function() {
+        let v = new RebbVal();
+        it('23 should between 18 and 60', function () {
+            assert.ok(v.val(23, 'between 18 and 60'));
+        });
+    });
 
+    describe('#numberInterval', function() {
+        let v = new RebbVal();
+        it('23 should match (18..60)', function () {
+            assert.ok(v.val(23, '(18..60)'));
+        });
+    });
 });
