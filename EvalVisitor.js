@@ -1,15 +1,6 @@
-import antlr4 from 'antlr4';
-import RebbValLexer from './RebbValLexer.js';
 import RebbValParser from './RebbValParser.js';
 import RebbValVisitor from './RebbValVisitor.js';
 
-// const input = ">10"
-// const chars = new antlr4.InputStream(input);
-// const lexer = new RebbValLexer(chars);
-// const tokens = new antlr4.CommonTokenStream(lexer);
-// const parser = new RebbValParser(tokens);
-// parser.buildParseTrees = true;
-// const tree = parser.unaryTests();
 
 export default class EvalVisitor extends RebbValVisitor
 {
@@ -165,8 +156,14 @@ export default class EvalVisitor extends RebbValVisitor
             case RebbValParser.GT:
                 result = obj > value;
                 break;
+            case RebbValParser.GTE:
+                result = obj >= value;
+                break;
             case RebbValParser.LT:
                 result = obj < value;
+                break;
+            case RebbValParser.LTE:
+                result = obj <= value;
                 break;
         }
         return result;
