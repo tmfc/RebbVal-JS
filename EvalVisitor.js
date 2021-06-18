@@ -303,6 +303,41 @@ export default class EvalVisitor extends RebbValVisitor
         return startResult && endResult;
     }
 
+    visitAgeCompare(ctx) {
+        this.visit(ctx.expression());
+        let exprValue = this.getValue(ctx.expression());
+        let result = false;
+        if (this.isDate(this.obj) && typeof exprValue === "number")
+        {
+            let now = new Date();
+            let age = now.getFullYear() - this.obj.getFullYear();
+            if(now.getMonth() > this.obj.getMonth() ||
+                (now.getMonth() === this.obj.getMonth() && now.getDate() > this.obj.getDate()))
+                age = age - 1;
+
+            switch(ctx.op.type) {
+                case RebbValParser.OLDER:
+                    result = age > exprValue;
+                    break;
+                case RebbValParser.YOUNGER:
+                    result = age < exprValue;
+                    break;
+            }
+            if(result){
+                this.setValue(ctx, true);
+            }
+            else {
+                this.setValue(ctx, false);
+            }
+        }
+        else
+        {
+            this.valid = false;
+            this.error = "UnsupportedObjectType";
+        }
+        return super.visitAgeCompare(ctx);
+    }
+
     visitIs(ctx) {
         let b = new BuildInFunctions();
         let result = true;

@@ -162,9 +162,38 @@ describe('RebbVal Date', function() {
         });
     });
 
-    describe('#leapyear', function() {
+    describe('#leapyear fails', function() {
         it('1900 should not be a leap year', function () {
             assert.equal(false, v.val(v.year('1900'), 'is leapyear'));
         });
+        it('1989 should not be a leap year', function () {
+            assert.equal(false, v.val(v.year('1989'), 'is leapyear'));
+        });
     });
+
+    describe('#leapday', function() {
+        it('2000-02-29 and 2020-02-29 should not be a leap day', function () {
+            assert.ok(v.val(v.date('2000-02-29'), 'is leapday'));
+            assert.ok(v.val(v.date('2020-02-29'), 'is leapday'));
+        });
+    });
+    describe('#leapday fails', function() {
+        it('1989-02-29 and 1900-02-29 should not be a leap day', function () {
+            assert.equal(false, v.val(v.date('1989-02-29'), 'is leapday'));
+            assert.equal(false, v.val(v.date('1900-02-29'), 'is leapday'));
+        });
+    });
+});
+
+describe('RebbVal Age', function() {
+    let v = new RebbVal();
+    describe('#younger', function () {
+        it('18 should younger than 60', function () {
+            assert.ok(v.val(new Date(new Date().getFullYear() - 18,0,1), 'younger than 60'));
+        });
+        it('61 should not younger than 60', function () {
+            assert.equal(false, v.val(new Date(new Date().getFullYear() - 61,0,1), 'younger than 60'));
+        });
+    });
+
 });
