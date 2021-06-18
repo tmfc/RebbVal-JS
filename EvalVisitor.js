@@ -6,7 +6,6 @@ export default class EvalVisitor extends RebbValVisitor
 {
     obj = null;
     obj_type = null;
-    obj_constructor_name = "";
     values = {};
 
     valid = false;
@@ -302,5 +301,88 @@ export default class EvalVisitor extends RebbValVisitor
         }
 
         return startResult && endResult;
+    }
+
+    visitIs(ctx) {
+        let b = new BuildInFunctions();
+        let result = true;
+        switch(ctx.type.type) {
+            case RebbValParser.TRUE:
+                result = b.checkTrue(this.obj, this.obj_type);
+                break;
+            case RebbValParser.FALSE:
+                result = b.checkFalse(this.obj, this.obj_type);
+                break;
+            case RebbValParser.LEAPYEAR:
+                result = b.checkLeapYear(this.obj, this.obj_type);
+                break;
+            case RebbValParser.LEAPDAY:
+                result = b.checkLeapDay(this.obj, this.obj_type);
+                break;
+        }
+        this.setValue(ctx, result);
+        if(result === false)
+        {
+            this.error = b.error;
+        }
+        return super.visitIs(ctx);
+    }
+}
+
+class BuildInFunctions
+{
+    error = '';
+    checkTrue(obj, obj_type)
+    {
+        if(obj_type === "boolean")
+            return obj;
+        else if(obj_type === "number")
+            return obj != 0;
+        else
+        {
+            this.error = "ObjectTypeNotSupport";
+            return false;
+        }
+    }
+
+    checkFalse(obj, obj_type)
+    {
+        if(obj_type === "boolean")
+            return !obj;
+        else if(obj_type === "number")
+            return obj == 0;
+        else
+        {
+            this.error = "ObjectTypeNotSupport";
+            return false;
+        }
+    }
+
+    checkLeapYear(obj, obj_type)
+    {
+        if(obj_type === "number" && Number.isInteger(obj))
+            return new Date(obj, 1, 29).getDate() === 29;
+        else if(obj_type === "object" && obj.constructor.name === 'Date')
+        {
+            return new Date(obj.getFullYear(),1,29).getDate() === 29;
+        }
+        else
+        {
+            this.error = "ObjectTypeNotSupport";
+            return false;
+        }
+    }
+
+    checkLeapDay(obj, obj_type)
+    {
+        if(obj_type === "object" && obj.constructor.name === 'Date')
+        {
+            return obj.getMonth() === 1 && obj.getDate() === 29;
+        }
+        else
+        {
+            this.error = "ObjectTypeNotSupport";
+            return false;
+        }
     }
 }

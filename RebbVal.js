@@ -12,6 +12,11 @@ export default class RebbVal
         this.errors = [];
     }
 
+    year(year_str)
+    {
+        return new Date(year_str, 1,29);
+    }
+
     date(date_str)
     {
         return new Date(date_str);
