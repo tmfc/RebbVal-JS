@@ -171,10 +171,20 @@ export default class EvalVisitor extends RebbValVisitor
     doCompare(obj, value, type)
     {
         let result = false;
+
+        if(this.isDate(obj) && this.isDate(value))
+        {
+            obj = obj.getTime();
+            value = value.getTime();
+        }
+
         switch(type)
         {
             case RebbValParser.EQUAL:
                 result = obj === value;
+                break;
+            case RebbValParser.NEQUAL:
+                result = obj !== value;
                 break;
             case RebbValParser.GT:
                 result = obj > value;
@@ -200,8 +210,14 @@ export default class EvalVisitor extends RebbValVisitor
 
         if(this.obj_type === "number" && typeof this.getValue(ctx.expression()) === "number")
         {
-            result = this.doCompare(this.obj, exprValue, ctx.op.type);
+            let result = this.doCompare(this.obj, exprValue, ctx.op.type);
             this.setValue(ctx, result);
+        }
+        else if(this.isDate(this.obj) && this.isDate(exprValue))
+        {
+            let result = this.doCompare(this.obj, exprValue, ctx.op.type);
+            this.setValue(ctx, result);
+
         }
 
         return super.visitCompare(ctx);
@@ -264,7 +280,7 @@ export default class EvalVisitor extends RebbValVisitor
 
     doIntervalCompare(obj, l, r, start, end)
     {
-        if(this.isDate(obj))
+        if(this.isDate(obj) && this.isDate(l) && this.isDate(r))
         {
             obj = obj.getTime();
             l = l.getTime();
