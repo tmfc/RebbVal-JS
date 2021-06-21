@@ -311,24 +311,19 @@ export default class EvalVisitor extends RebbValVisitor
         {
             let now = new Date();
             let age = now.getFullYear() - this.obj.getFullYear();
-            if(now.getMonth() > this.obj.getMonth() ||
-                (now.getMonth() === this.obj.getMonth() && now.getDate() > this.obj.getDate()))
+            if(now.getMonth() < this.obj.getMonth() ||
+                (now.getMonth() === this.obj.getMonth() && now.getDate() < this.obj.getDate()))
                 age = age - 1;
 
             switch(ctx.op.type) {
                 case RebbValParser.OLDER:
-                    result = age > exprValue;
+                    result = age >= exprValue;
                     break;
                 case RebbValParser.YOUNGER:
                     result = age < exprValue;
                     break;
             }
-            if(result){
-                this.setValue(ctx, true);
-            }
-            else {
-                this.setValue(ctx, false);
-            }
+            this.setValue(ctx, result);
         }
         else
         {
@@ -339,22 +334,9 @@ export default class EvalVisitor extends RebbValVisitor
     }
 
     visitIs(ctx) {
-        let b = new BuildInFunctions();
-        let result = true;
-        switch(ctx.type.type) {
-            case RebbValParser.TRUE:
-                result = b.checkTrue(this.obj, this.obj_type);
-                break;
-            case RebbValParser.FALSE:
-                result = b.checkFalse(this.obj, this.obj_type);
-                break;
-            case RebbValParser.LEAPYEAR:
-                result = b.checkLeapYear(this.obj, this.obj_type);
-                break;
-            case RebbValParser.LEAPDAY:
-                result = b.checkLeapDay(this.obj, this.obj_type);
-                break;
-        }
+        const b = new BuildInFunctions();
+        const result = b.functionMap[ctx.type.type](this.obj, this.obj_type)
+
         this.setValue(ctx, result);
         if(result === false)
         {
@@ -367,6 +349,35 @@ export default class EvalVisitor extends RebbValVisitor
 class BuildInFunctions
 {
     error = '';
+
+    functionMap = [];
+
+    constructor() {
+        this.functionMap[RebbValParser.TRUE] = this.checkTrue;
+        this.functionMap[RebbValParser.FALSE] = this.checkFalse;
+        this.functionMap[RebbValParser.LEAPYEAR] = this.checkLeapYear;
+        this.functionMap[RebbValParser.LEAPDAY] = this.checkLeapDay;
+        this.functionMap[RebbValParser.DOMAIN] = this.checkDomain;
+        this.functionMap[RebbValParser.EMAIL] = this.checkEmail;
+        this.functionMap[RebbValParser.IPV4] = this.checkIpv4;
+        this.functionMap[RebbValParser.IPV6] = this.checkIpv6;
+        this.functionMap[RebbValParser.PRIVATEIP] = this.checkPrivateIp;
+        this.functionMap[RebbValParser.URL] = this.checkUrl;
+    }
+
+    static checkRegex(obj, obj_type, regex)
+    {
+        if(obj_type === "string")
+        {
+            return regex.test(obj);
+        }
+        else
+        {
+            this.error = "ObjectTypeNotSupport";
+            return false;
+        }
+    }
+
     checkTrue(obj, obj_type)
     {
         if(obj_type === "boolean")
@@ -419,5 +430,60 @@ class BuildInFunctions
             this.error = "ObjectTypeNotSupport";
             return false;
         }
+    }
+
+    checkDomain(obj, obj_type) {
+        const regex = /^(?:(?:(?<thld>[\w\-]*)(?:\.))?(?<sld>[\w\-]*))\.(?<tld>\w*)(?:\:(?<port>\d*))?$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkEmail(obj, obj_type)
+    {
+        const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkIpv4(obj, obj_type)
+    {
+        const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkIpv6(obj, obj_type)
+    {
+        const regex = /^([\da-fA-F]{1,4}(?::[\da-fA-F]{1,4}){7}|::|:(?::[\da-fA-F]{1,4}){1,6}|[\da-fA-F]{1,4}:(?::[\da-fA-F]{1,4}){1,5}|(?:[\da-fA-F]{1,4}:){2}(?::[\da-fA-F]{1,4}){1,4}|(?:[\da-fA-F]{1,4}:){3}(?::[\da-fA-F]{1,4}){1,3}|(?:[\da-fA-F]{1,4}:){4}(?::[\da-fA-F]{1,4}){1,2}|(?:[\da-fA-F]{1,4}:){5}:[\da-fA-F]{1,4}|(?:[\da-fA-F]{1,4}:){1,6}:)$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkPrivateIp(obj, obj_type)
+    {
+        if(obj_type === "string")
+        {
+            const regex_ipv4 = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            const regex_ipv6 = /^([\da-fA-F]{1,4}(?::[\da-fA-F]{1,4}){7}|::|:(?::[\da-fA-F]{1,4}){1,6}|[\da-fA-F]{1,4}:(?::[\da-fA-F]{1,4}){1,5}|(?:[\da-fA-F]{1,4}:){2}(?::[\da-fA-F]{1,4}){1,4}|(?:[\da-fA-F]{1,4}:){3}(?::[\da-fA-F]{1,4}){1,3}|(?:[\da-fA-F]{1,4}:){4}(?::[\da-fA-F]{1,4}){1,2}|(?:[\da-fA-F]{1,4}:){5}:[\da-fA-F]{1,4}|(?:[\da-fA-F]{1,4}:){1,6}:)$/;
+
+            if (regex_ipv4.test(obj)) {
+                const regex_ipv4_private = /^(10(\.(([0-9]?[0-9])|(1[0-9]?[0-9])|(2[0-4]?[0-9])|(25[0-5]))){3})|(172\.((1[6-9])|(2[0-9])(3[0-1]))(\.(([0-9]?[0-9])|(1[0-9]?[0-9])|(2[0-4]?[0-9])|(25[0-5]))){2})|(192\.168(\.(([0-9]?[0-9])|(1[0-9]?[0-9])|(2[0-4]?[0-9])|(25[0-5]))){2})|(127(\.(([0-9]?[0-9])|(1[0-9]?[0-9])|(2[0-4]?[0-9])|(25[0-5]))){3})$/;
+                return regex_ipv4_private.test(obj);
+            }
+            else if(regex_ipv6.test(obj)){
+                return obj.startsWith("FEC0:");
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            this.error = "ObjectTypeNotSupport";
+            return false;
+        }
+    }
+
+    checkUrl(obj, obj_type)
+    {
+        const regex = /^((https?:)(\/\/\/?)([\w]*(?::[\w]*)?@)?([\d\w\.-]+)(?::(\d+))?)?([\/\\\w\.()-]*)?(?:([?][^#]*)?(#.*)?)*$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
     }
 }

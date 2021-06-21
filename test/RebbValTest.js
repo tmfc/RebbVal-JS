@@ -191,8 +191,209 @@ describe('RebbVal Age', function() {
         it('18 should younger than 60', function () {
             assert.ok(v.val(new Date(new Date().getFullYear() - 18,0,1), 'younger than 60'));
         });
+        it('59 should younger than 60', function () {
+            assert.ok(v.val(new Date(new Date().getFullYear() - 59,0,1), 'younger than 60'));
+        });
         it('61 should not younger than 60', function () {
             assert.equal(false, v.val(new Date(new Date().getFullYear() - 61,0,1), 'younger than 60'));
+        });
+    });
+    describe('#younger', function () {
+        it('60 should older than 18', function () {
+            assert.ok(v.val(new Date(new Date().getFullYear() - 60,0,1), 'older than 18'));
+        });
+        it('19 should older than 18', function () {
+            assert.ok(v.val(new Date(new Date().getFullYear() - 19,0,1), 'older than 18'));
+        });
+        it('18 and few days should older than 18', function () {
+            assert.ok(v.val(new Date(new Date().getFullYear() - 18,0,1), 'older than 18'));
+        });
+        it('18\'s birthday should older than 18', function () {
+            let now = new Date();
+            assert.ok(v.val(new Date(now.getFullYear() - 18,now.getMonth(),now.getDate()), 'older than 18'));
+        });
+        it('17 should not younger than 18', function () {
+            assert.equal(false, v.val(new Date(new Date().getFullYear() - 17,0,1), 'older than 18'));
+        });
+    });
+
+});
+
+describe('RebbVal Internet', function() {
+    let v = new RebbVal();
+    describe('#domain', function () {
+        it('google.com should be a valid domain', function () {
+            assert.ok(v.val("google.com", 'is domain'));
+        });
+        it('www.baidu.com should be a valid domain', function () {
+            assert.ok(v.val("www.baidu.com", 'is domain'));
+        });
+        it('a random string should not be a valid domain', function () {
+            assert.equal(false, v.val("fdsads", 'is domain'));
+        });
+    });
+
+    describe('#email', function () {
+        it('abc@gmail.com should be a valid email', function () {
+            assert.ok(v.val("abc@gmail.com", 'is email'));
+        });
+        it('13800138000@139.com should be a valid email', function () {
+            assert.ok(v.val("13800138000@139.com", 'is email'));
+        });
+        it('a random string should not be a valid email', function () {
+            assert.equal(false, v.val("fdsads", 'is email'));
+        });
+    });
+
+    describe('#ipv4', function () {
+        it('8.8.8.8 should be a valid ipv4 address', function () {
+            assert.ok(v.val("8.8.8.8", 'is ipv4'));
+        });
+        it('192.168.1.1 should be a valid ipv4 address', function () {
+            assert.ok(v.val("192.168.1.1", 'is ipv4'));
+        });
+        it('266.1.3.4 should not be a valid ipv4 address', function () {
+            assert.equal(false, v.val("266.1.3.4", 'is ipv4'));
+        });
+    });
+
+    describe('#ipv6', function () {
+        it(':: should be a valid ipv6 address', function () {
+            assert.ok(v.val("::", 'is ipv6'));
+        });
+        it('::123 should be a valid ipv6 address', function () {
+            assert.ok(v.val("::123", 'is ipv6'));
+        });
+        it('::123:456 should be a valid ipv6 address', function () {
+            assert.ok(v.val("::123:456", 'is ipv6'));
+        });
+        it('::123:456:789 should be a valid ipv6 address', function () {
+            assert.ok(v.val("::123:456:789", 'is ipv6'));
+        });
+        it('::123:456:789:abc:def:6666 should be a valid ipv6 address', function () {
+            assert.ok(v.val("::123:456:789:abc:def:6666", 'is ipv6'));
+        });
+        it('::123:456:789:abc:def:6666:7 should not be a valid ipv6 address', function () {
+            assert.equal(false, v.val("::123:456:789:abc:def:6666:7", 'is ipv6'));
+        });
+
+        it('123::456 should be a valid ipv6 address', function () {
+            assert.ok(v.val("123::456", 'is ipv6'));
+        });
+        it('123::456:789:abc should be a valid ipv6 address', function () {
+            assert.ok(v.val("123::456:789:abc", 'is ipv6'));
+        });
+        it('123::456:789:abc:def:6 should be a valid ipv6 address', function () {
+            assert.ok(v.val("123::456:789:abc:def:6", 'is ipv6'));
+        });
+        it('123::456:789:abc:def:6:7 should not be a valid ipv6 address', function () {
+            assert.equal(false, v.val("123::456:789:abc:def:6:7", 'is ipv6'));
+        });
+
+        it('123:456::789 should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456::789", 'is ipv6'));
+        });
+        it('123:456::789:abc:def should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456::789:abc:def", 'is ipv6'));
+        });
+        it('123:456::789:abc:def:6666 should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456::789:abc:def:6666", 'is ipv6'));
+        });
+        it('123:456::789:abc:def:6666:7 should not be a valid ipv6 address', function () {
+            assert.equal(false, v.val("123:456::789:abc:def:6666:7", 'is ipv6'));
+        });
+
+        it('123:456:789::abc should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456:789::abc", 'is ipv6'));
+        });
+        it('123:456:789::abc:def should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456:789::abc:def", 'is ipv6'));
+        });
+        it('123:456:789::abc:def:6666 should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456:789::abc:def:6666", 'is ipv6'));
+        });
+        it('123:456:789::abc:def:6666:7 should not be a valid ipv6 address', function () {
+            assert.equal(false, v.val("123:456:789::abc:def:6666:7", 'is ipv6'));
+        });
+
+        it('123:456:789:abc::def should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456:789:abc::def", 'is ipv6'));
+        });
+        it('123:456:789:abc::def:6666 should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456:789:abc::def:6666", 'is ipv6'));
+        });
+        it('123:456:789:abc::def:6666:7 should not be a valid ipv6 address', function () {
+            assert.equal(false, v.val("123:456:789:abc::def:6666:7", 'is ipv6'));
+        });
+
+        it('123:456:789:abc:def::6666 should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456:789:abc:def::6666", 'is ipv6'));
+        });
+        it('123:456:789:abc:def::6666:7 should not be a valid ipv6 address', function () {
+            assert.equal(false, v.val("123:456:789:abc:def::6666:7", 'is ipv6'));
+        });
+
+        it('123:456:789:abc:def:6666:: should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456:789:abc:def:6666::", 'is ipv6'));
+        });
+        it('123:456:789:abc:def:: should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456:789:abc:def::", 'is ipv6'));
+        });
+        it('123:456:789:abc:: should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456:789:abc::", 'is ipv6'));
+        });
+        it('123:456:789:: should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456:789::", 'is ipv6'));
+        });
+        it('123:456:: should be a valid ipv6 address', function () {
+            assert.ok(v.val("123:456::", 'is ipv6'));
+        });
+        it('123:: should be a valid ipv6 address', function () {
+            assert.ok(v.val("123::", 'is ipv6'));
+        });
+
+        it('123::456::abc should not be a valid ipv6 address', function () {
+            assert.equal(false, v.val("123::456::abc", 'is ipv6'));
+        });
+
+        it('2001:0db8:85a3:08d3:1319:8a2e:0370:7334 should be a valid ipv6 address', function () {
+            assert.ok(v.val("2001:0db8:85a3:08d3:1319:8a2e:0370:7334", 'is ipv6'));
+        });
+    });
+
+    describe('#privateip', function () {
+        it('127.0.0.1 should be a private ip address', function () {
+            assert.ok(v.val("127.0.0.1", 'is private_ip'));
+        });
+        it('10.1.1.1 should be a private ip address', function () {
+            assert.ok(v.val("10.1.1.1", 'is private_ip'));
+        });
+        it('172.18.100.1 should be a private ip address', function () {
+            assert.ok(v.val("172.18.100.1", 'is private_ip'));
+        });
+        it('192.168.2.100 should be a private ip address', function () {
+            assert.ok(v.val("192.168.2.100", 'is private_ip'));
+        });
+        it('8.8.8.8 should not be a private ip address', function () {
+            assert.equal(false, v.val("8.8.8.8", 'is private_ip'));
+        });
+        it('FEC0:0001:: should be a private ip address', function () {
+            assert.ok(v.val("FEC0:0001::", 'is private_ip'));
+        });
+        it('123:456:789:abc:def:6666:: should not be a private ip address', function () {
+            assert.equal(false, v.val("123:456:789:abc:def:6666::", 'is private_ip'));
+        });
+    });
+
+    describe('#url', function () {
+        it('https://www.google.com should be a valid url', function () {
+            assert.ok(v.val("https://www.google.com", 'is url'));
+        });
+        it('http://www.example.com/to/path?param1=foo&param2=bar should be a valid url', function () {
+            assert.ok(v.val("http://www.example.com/to/path?param1=foo&param2=bar", 'is url'));
+        });
+        it('somebody@somedomain.com should not be a valid url', function () {
+            assert.equal(false, v.val("somebody@somedomain.com", 'is url'));
         });
     });
 
