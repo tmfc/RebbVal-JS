@@ -344,6 +344,42 @@ export default class EvalVisitor extends RebbValVisitor
         }
         return super.visitIs(ctx);
     }
+
+    visitArray(ctx) {
+        try {
+            let arr = [];
+            for(var tree of ctx.arrayLiteral().NumbericLiteral())
+            {
+                let element = parseFloat(tree.getText());
+                arr.push(element);
+            }
+            this.setValue(ctx, arr);
+        } catch(e)
+        {
+            this.setValue(ctx, null);
+            this.error = e.message;
+        }
+        return null;
+    }
+
+    visitIn(ctx) {
+        this.visit(ctx.expression());
+        let exprValue = this.getValue(ctx.expression());
+        if(this.obj_type === "string" && typeof exprValue === "string")
+        {
+            this.setValue(ctx, exprValue.includes(this.obj));
+        }
+        else if(this.obj_type === "number" && typeof exprValue === "object"&& exprValue.constructor.name === "Array")
+        {
+            this.setValue(ctx, exprValue.includes(this.obj));
+        }
+        else
+        {
+            this.setValue(ctx, false);
+            this.error = "UnsupportedObjectType";
+        }
+        return super.visitIn(ctx);
+    }
 }
 
 class BuildInFunctions

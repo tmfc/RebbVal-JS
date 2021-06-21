@@ -398,3 +398,20 @@ describe('RebbVal Internet', function() {
     });
 
 });
+
+describe('RebbVal Array', function() {
+    let v = new RebbVal();
+    describe('#number in', function () {
+        it('1 should in array [1,2,3]', function () {
+            assert.ok(v.val(1, 'in [1,2,3]'));
+        });
+        it('8 should not in array [1,2,3]', function () {
+            assert.equal(false, v.val(8, 'in [1,2,3]'));
+        });
+        it('8 should not in array [1,2,3](success)', function () {
+            assert.ok(v.val(8, 'not in [1,2,3]'));
+        });
+    });
+
+
+});
