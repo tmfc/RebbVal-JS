@@ -412,6 +412,20 @@ describe('RebbVal Array', function() {
             assert.ok(v.val(8, 'not in [1,2,3]'));
         });
     });
+});
 
+describe('RebbVal Localization', function() {
+    let v = new RebbVal();
+    describe('#gbcode', function () {
+        it('110101 should be a valid gbcode', function () {
+            assert.ok(v.val("110101", 'is gbcode'));
+        });
+        it('100100 should not be a valid gbcode', function () {
+            assert.equal(false, v.val("100100", 'is gbcode'));
+        });
+        it('13113113111 should not be a valid gbcode', function () {
+            assert.equal(false, v.val("13113113111", 'is gbcode'));
+        });
+    });
 
 });
