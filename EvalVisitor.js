@@ -400,10 +400,15 @@ class BuildInFunctions
         this.functionMap[RebbValParser.PRIVATEIP] = this.checkPrivateIp;
         this.functionMap[RebbValParser.URL] = this.checkUrl;
         this.functionMap[RebbValParser.GBCODE] = this.checkGBCode;
+        this.functionMap[RebbValParser.IMEI] = this.checkIMEI;
+        this.functionMap[RebbValParser.IMEISV] = this.checkIMEISV;
+        this.functionMap[RebbValParser.ISBN] = this.checkISBN;
+        this.functionMap[RebbValParser.UUID] = this.checkUUID;
+        this.functionMap[RebbValParser.MAC] = this.checkMAC;
+        this.functionMap[RebbValParser.ID] = this.checkID;
     }
 
-    static checkRegex(obj, obj_type, regex)
-    {
+    static checkRegex(obj, obj_type, regex) {
         if(obj_type === "string")
         {
             return regex.test(obj);
@@ -415,8 +420,7 @@ class BuildInFunctions
         }
     }
 
-    checkTrue(obj, obj_type)
-    {
+    checkTrue(obj, obj_type) {
         if(obj_type === "boolean")
             return obj;
         else if(obj_type === "number")
@@ -428,8 +432,7 @@ class BuildInFunctions
         }
     }
 
-    checkFalse(obj, obj_type)
-    {
+    checkFalse(obj, obj_type) {
         if(obj_type === "boolean")
             return !obj;
         else if(obj_type === "number")
@@ -441,8 +444,7 @@ class BuildInFunctions
         }
     }
 
-    checkLeapYear(obj, obj_type)
-    {
+    checkLeapYear(obj, obj_type) {
         if(obj_type === "number" && Number.isInteger(obj))
             return new Date(obj, 1, 29).getDate() === 29;
         else if(obj_type === "object" && obj.constructor.name === 'Date')
@@ -456,8 +458,7 @@ class BuildInFunctions
         }
     }
 
-    checkLeapDay(obj, obj_type)
-    {
+    checkLeapDay(obj, obj_type) {
         if(obj_type === "object" && obj.constructor.name === 'Date')
         {
             return obj.getMonth() === 1 && obj.getDate() === 29;
@@ -474,26 +475,22 @@ class BuildInFunctions
         return BuildInFunctions.checkRegex(obj, obj_type, regex);
     }
 
-    checkEmail(obj, obj_type)
-    {
+    checkEmail(obj, obj_type) {
         const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
         return BuildInFunctions.checkRegex(obj, obj_type, regex);
     }
 
-    checkIpv4(obj, obj_type)
-    {
+    checkIpv4(obj, obj_type) {
         const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
         return BuildInFunctions.checkRegex(obj, obj_type, regex);
     }
 
-    checkIpv6(obj, obj_type)
-    {
+    checkIpv6(obj, obj_type) {
         const regex = /^([\da-fA-F]{1,4}(?::[\da-fA-F]{1,4}){7}|::|:(?::[\da-fA-F]{1,4}){1,6}|[\da-fA-F]{1,4}:(?::[\da-fA-F]{1,4}){1,5}|(?:[\da-fA-F]{1,4}:){2}(?::[\da-fA-F]{1,4}){1,4}|(?:[\da-fA-F]{1,4}:){3}(?::[\da-fA-F]{1,4}){1,3}|(?:[\da-fA-F]{1,4}:){4}(?::[\da-fA-F]{1,4}){1,2}|(?:[\da-fA-F]{1,4}:){5}:[\da-fA-F]{1,4}|(?:[\da-fA-F]{1,4}:){1,6}:)$/;
         return BuildInFunctions.checkRegex(obj, obj_type, regex);
     }
 
-    checkPrivateIp(obj, obj_type)
-    {
+    checkPrivateIp(obj, obj_type) {
         if(obj_type === "string")
         {
             const regex_ipv4 = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
@@ -518,14 +515,12 @@ class BuildInFunctions
         }
     }
 
-    checkUrl(obj, obj_type)
-    {
+    checkUrl(obj, obj_type) {
         const regex = /^((https?:)(\/\/\/?)([\w]*(?::[\w]*)?@)?([\d\w\.-]+)(?::(\d+))?)?([\/\\\w\.()-]*)?(?:([?][^#]*)?(#.*)?)*$/;
         return BuildInFunctions.checkRegex(obj, obj_type, regex);
     }
 
-    checkGBCode(obj, obj_type)
-    {
+    checkGBCode(obj, obj_type) {
         let regex = /^\d{6}$/;
         let regexResult = BuildInFunctions.checkRegex(obj, obj_type, regex);
         if(regexResult)
@@ -536,5 +531,116 @@ class BuildInFunctions
         }
         else
             return false;
+    }
+
+    checkIMEI(obj, obj_type) {
+        const regex = /^(\d{15})$|^(\d{2}\-\d{6}\-\d{6}\-\d)$/;
+        let result = BuildInFunctions.checkRegex(obj, obj_type, regex);
+        if(result)
+        {
+            let imei = obj.replaceAll("-","");
+
+            let check = parseInt(imei.substring(14));
+            imei = imei.substring(0, 14);
+
+            let checksum = 0;
+            for (let i = 0; i < imei.length; i++) {
+                let weight = 1;
+                if(i % 2 === 1)
+                    weight = 2;
+
+                let char_int = parseInt(imei[i]) * weight;
+                if(char_int >= 10)
+                    char_int = char_int - 9;
+
+                checksum += char_int;
+            }
+            checksum %= 10;
+            checksum = checksum === 0 ? 0 : 10 - checksum;
+
+            return checksum === check;
+        }
+        return false;
+    }
+
+    checkIMEISV(obj, obj_type) {
+        const regex = /^(\d{16})$|^(\d{2}\-\d{6}\-\d{6}\-\d{2})$/;
+        return  BuildInFunctions.checkRegex(obj, obj_type, regex);
+
+    }
+
+    checkISBN(obj, obj_type) {
+        const regex = /^(\d{13})$|^(978\-\d\-\d{3}\-\d{5}\-\d)$/;
+        let result = BuildInFunctions.checkRegex(obj, obj_type, regex);
+        if(result)
+        {
+            let isbn = obj.replaceAll("-","");
+
+            let checksum = 0;
+            for (let i = 0; i < isbn.length; i++) {
+            let weight = 1;
+            if(i % 2 === 1)
+                weight = 3;
+            let char_int = parseInt(isbn[i]);
+            let a = char_int * weight;
+            checksum += a;
+        }
+
+            return checksum % 10 === 0;
+        }
+        return false;
+    }
+
+    checkUUID(obj, obj_type) {
+        const regex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkMAC(obj, obj_type) {
+        const regex = /^((?:[a-fA-F0-9]{2}[:-]){5}[a-fA-F0-9]{2})$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkID(obj, obj_type) {
+        const regex = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)/;
+        let regexResult = BuildInFunctions.checkRegex(obj, obj_type, regex);
+        if(!regexResult)
+            return false;
+
+        //check area code
+        let areas = [11,12,13,14,15,21,22,23,31,32,33,34,35,36,37,41,42,43,44,45,46,50,51,52,53,54,61,62,63,64,65,71,81,82,91];
+        let area = parseInt(obj.substring(0,2));
+        if(!areas.includes(area))
+            return false;
+
+        //check birthday
+        let birthday = obj.substring(6,14);
+        try {
+            let d = new Date(obj.substring(6,10) + '-' + obj.substring(10,12) + '-' + obj.substring(12,14)),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+            if([year, month, day].join('') !== birthday)
+                return false;
+        } catch (e) {
+            this.error = e.message;
+        }
+
+        //checksum
+        let checksum = 0;
+        let weight = [7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2];
+        for (let i = 0; i < 17; i++) {
+            let char_int = parseInt(obj[i]);
+            let a = char_int * weight[i];
+            checksum += a;
+        }
+        let checksumCharList = ["1","0","X","9","8","7","6","5","4","3","2"];
+        let checksumChar = checksumCharList[checksum%11];
+        return checksumChar === obj.substring(obj.length - 1);
     }
 }

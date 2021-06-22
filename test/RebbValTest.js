@@ -427,5 +427,83 @@ describe('RebbVal Localization', function() {
             assert.equal(false, v.val("13113113111", 'is gbcode'));
         });
     });
+});
+
+describe('RebbVal Identification', function() {
+    let v = new RebbVal();
+    describe('#IMEI', function () {
+        it('35-209900-176148-1 should be a valid IMEI', function () {
+            assert.ok(v.val("35-209900-176148-1", 'is IMEI'));
+        });
+        it('352099001761481 should be a valid IMEI', function () {
+            assert.ok(v.val("352099001761481", 'is IMEI'));
+        });
+        it('35-209900-176148-2 should not be a valid IMEI', function () {
+            assert.equal(false, v.val("35-209900-176148-2", 'is IMEI'));
+        });
+    });
+    describe('#IMEISV', function () {
+        it('35-209900-176148-12 should be a valid IMEISV', function () {
+            assert.ok(v.val("35-209900-176148-12", 'is IMEISV'));
+        });
+        it('3520990017614812 should be a valid IMEISV', function () {
+            assert.ok(v.val("3520990017614812", 'is IMEISV'));
+        });
+        it('35-209900-176148-2 should not be a valid IMEISV', function () {
+            assert.equal(false, v.val("35-209900-176148-2", 'is IMEISV'));
+        });
+    });
+    describe('#ISBN', function () {
+        it('978-0-596-52068-7 should be a valid ISBN', function () {
+            assert.ok(v.val("978-0-596-52068-7", 'is ISBN'));
+        });
+        it('9787510892844 should be a valid ISBN', function () {
+            assert.ok(v.val("9787510892844", 'is ISBN'));
+        });
+        it('35-209900-176148-2 should not be a valid ISBN', function () {
+            assert.equal(false, v.val("35-209900-176148-2", 'is ISBN'));
+        });
+    });
+
+    describe('#UUID', function () {
+        it('eb3115e5-bd16-4939-ab12-2b95745a30f3 should be a valid UUID', function () {
+            assert.ok(v.val("eb3115e5-bd16-4939-ab12-2b95745a30f3", 'is UUID'));
+        });
+
+        it('13113113111 should not be a valid UUID', function () {
+            assert.equal(false, v.val("13113113111", 'is UUID'));
+        });
+    });
+
+    describe('#MAC', function () {
+        it('00:11:22:33:44:55 should be a valid MAC', function () {
+            assert.ok(v.val("00:11:22:33:44:55", 'is MAC'));
+        });
+
+        it('00-11-22-33-44-55 should be a valid MAC', function () {
+            assert.ok(v.val("00-11-22-33-44-55", 'is MAC'));
+        });
+
+        it('13113113111 should not be a valid MAC', function () {
+            assert.equal(false, v.val("13113113111", 'is MAC'));
+        });
+        it('00:11:22:33:44:GG should not be a valid MAC', function () {
+            assert.equal(false, v.val("00:11:22:33:44:GG", 'is MAC'));
+        });
+    });
+
+    describe('#ID', function () {
+        it('140303192005236131 should be a valid ID', function () {
+            assert.ok(v.val("140303192005236131", 'is ID'));
+        });
+
+        it('110100199909093245 should not be a valid ID', function () {
+            assert.equal(false, v.val("110100199909093245", 'is ID'));
+        });
+        it('110100199902313244 should not be a valid ID', function () {
+            assert.equal(false, v.val("110100199902313244", 'is ID'));
+        });
+    });
+
 
 });
