@@ -507,3 +507,307 @@ describe('RebbVal Identification', function() {
 
 
 });
+
+describe('RebbVal String', function() {
+    let v = new RebbVal();
+    describe('#equal', function () {
+        it('"a string" should equal to "a string"', function () {
+            assert.ok(v.val("a string", "='a string'"));
+        });
+        it('"not a string" should not equal to "a string"', function () {
+            assert.equal(false, v.val("not a string", "='a string'"));
+        });
+    });
+    describe('#compare', function () {
+        it('greater than should not be supported', function () {
+            assert.equal(false, v.val("a string", ">'a string'"));
+            assert.equal("a string >'a string' failed(Unsupported Operation)", v.getErrors()[0])
+        });
+        it('less than should not be supported', function () {
+            assert.equal(false, v.val("not a string", "<'a string'"));
+            assert.equal("not a string <'a string' failed(Unsupported Operation)", v.getErrors()[0])
+        });
+    });
+
+    describe('#start with', function () {
+        it('"This string" should start with "This"', function () {
+            assert.ok(v.val("This string", "starts with 'This'"));
+        });
+        it('"That string" should not start with "This"', function () {
+            assert.equal(false, v.val("That string", "starts with 'This'"));
+        });
+    });
+    describe('#ends with', function () {
+        it('"This string" should end with "string"', function () {
+            assert.ok(v.val("This string", "ends with 'string'"));
+        });
+        it('"That string" should not end with "foobar"', function () {
+            assert.equal(false, v.val("That string", "ends with 'foobar'"));
+        });
+    });
+
+    describe('#in', function () {
+        it('"string" should in "a longer string"', function () {
+            assert.ok(v.val("string", "in 'a longer string'"));
+        });
+        it('"foobar" should not in "a longer string"', function () {
+            assert.equal(false, v.val("foobar", "in 'a longer string'"));
+        });
+    });
+    describe('#contains', function () {
+        it('"a longer string" should contain "string"', function () {
+            assert.ok(v.val("a longer string", "contains 'string'"));
+        });
+        it('"a longer string" should not contain "foobar""', function () {
+            assert.equal(false, v.val("a longer string", "contains 'foobar'"));
+        });
+    });
+
+    describe('#contains', function () {
+        it('"a longer string" should contain "string"', function () {
+            assert.ok(v.val("a longer string", "contains 'string'"));
+        });
+        it('"a longer string" should not contain "foobar"', function () {
+            assert.equal(false, v.val("a longer string", "contains 'foobar'"));
+        });
+    });
+    describe('#not empty', function () {
+        it('"a string" should not be emtpy', function () {
+            assert.ok(v.val("a string", "not empty"));
+        });
+        it('null should be empty', function () {
+            assert.equal(false, v.val(null, "not empty"));
+        });
+        it('"" should be empty', function () {
+            assert.equal(false, v.val("", "not empty"));
+        });
+    });
+    describe('#max length', function () {
+        it('"a string" should not exceed mat length 15', function () {
+            assert.ok(v.val("a string", "max length 15"));
+        });
+        it('"a very looooooooooooooong string" should exceed max length 15', function () {
+            assert.equal(false, v.val("a very looooooooooooooong string", "max length 15"));
+        });
+    });
+    describe('#percentage', function () {
+        it('"100%" should be a percentage', function () {
+            assert.ok(v.val("100%", "is percentage"));
+        });
+        it('"99.9%" should be a percentage', function () {
+            assert.ok(v.val("99.9%", "is percentage"));
+        });
+        it('"-10.01%" should be a percentage', function () {
+            assert.ok(v.val("-10.01%", "is percentage"));
+        });
+        it('"1000%" should not be a percentage', function () {
+            assert.equal(false, v.val("1000%", "is percentage"));
+        });
+    });
+    describe('#base64', function () {
+        it('"YW55IGNhcm5hbCBwbGVhcw==" should be a valid base64 string', function () {
+            assert.ok(v.val("YW55IGNhcm5hbCBwbGVhcw==", "is base64"));
+        });
+        it('"YW55IGNhcm5hbCBwbGVhc3U=" should be a valid base64 string', function () {
+            assert.ok(v.val("YW55IGNhcm5hbCBwbGVhc3U=", "is base64"));
+        });
+        it('"YW55IGNhcm5hbCBwbGVhc3Vy" should be a valid base64 string', function () {
+            assert.ok(v.val("YW55IGNhcm5hbCBwbGVhc3Vy", "is base64"));
+        });
+        it('"YW5@IGNhcm5hbCBwbGVhcw==" should not be a valid base64 string', function () {
+            assert.equal(false, v.val("YW5@IGNhcm5hbCBwbGVhcw==", "is base64"));
+        });
+        it('"YW55IGNhc=5hbCBwbGVhcw==" should not be a valid base64 string', function () {
+            assert.equal(false, v.val("YW55IGNhc=5hbCBwbGVhcw==", "is base64"));
+        });
+        it('"YW55IGNhcm5hbCBwbGVhc3V" should not be a valid base64 string', function () {
+            assert.equal(false, v.val("YW55IGNhcm5hbCBwbGVhc3V", "is base64"));
+        });
+        it('"YW55IGNhcm5hbCBwbGVh=" should not be a valid base64 string', function () {
+            assert.equal(false, v.val("YW55IGNhcm5hbCBwbGVh=", "is base64"));
+        });
+        it('"YW55IGNhcm5hbCBwbGVhc===" should not be a valid base64 string', function () {
+            assert.equal(false, v.val("YW55IGNhcm5hbCBwbGVhc===", "is base64"));
+        });
+    });
+
+    describe('#number', function () {
+        it('"100" should be a string in number format', function () {
+            assert.ok(v.val("100", "is number"));
+        });
+        it('"100.12" should be a string in number format', function () {
+            assert.ok(v.val("100.12", "is number"));
+        });
+        it('"-100" should be a string in number format', function () {
+            assert.ok(v.val("-100", "is number"));
+        });
+        it('"123." should be a string in number format', function () {
+            assert.ok(v.val("123.", "is number"));
+        });
+        it('"-110.123" should be a string in number format', function () {
+            assert.ok(v.val("-110.123", "is number"));
+        });
+        it('"3.1415926" should be a string in number format', function () {
+            assert.ok(v.val("3.1415926", "is number"));
+        });
+        it('"3e30" should be a string in number format', function () {
+            assert.ok(v.val("3e30", "is number"));
+        });
+        it('"-1.2e12" should be a string in number format', function () {
+            assert.ok(v.val("-1.2e12", "is number"));
+        });
+        it('"1.0E-12" should be a string in number format', function () {
+            assert.ok(v.val("1.0E-12", "is number"));
+        });
+        it('".01" should be a string in number format', function () {
+            assert.ok(v.val(".01", "is number"));
+        });
+        it('".0.1" should not be a string in number format', function () {
+            assert.equal(false, v.val(".0.1", "is number"));
+        });
+        it('"123abc" should not be a string in number format', function () {
+            assert.equal(false, v.val("123abc", "is number"));
+        });
+    });
+    describe('#integer', function () {
+        it('"100" should be a string in integer format', function () {
+            assert.ok(v.val("100", "is int"));
+        });
+        it('"-100" should be a string in integer format', function () {
+            assert.ok(v.val("-100", "is int"));
+        });
+        it('"100.12" should not be a string in integer format', function () {
+            assert.equal(false, v.val("100.12", "is int"));
+        });
+        it('"-110.123" should not be a string in integer format', function () {
+            assert.equal(false, v.val("-110.123", "is int"));
+        });
+        it('"3.1415926" should not be a string in integer format', function () {
+            assert.equal(false, v.val("3.1415926", "is int"));
+        });
+        it('"3e30" should not be a string in integer format', function () {
+            assert.equal(false, v.val("3e30", "is int"));
+        });
+        it('".0.1" should not be a string in integer format', function () {
+            assert.equal(false, v.val(".0.1", "is int"));
+        });
+        it('"123abc" should not be a string in integer format', function () {
+            assert.equal(false, v.val("123abc", "is int"));
+        });
+    });
+    describe('#float', function () {
+        it('"100.12" should be a string in float format', function () {
+            assert.ok(v.val("100.12", "is float"));
+        });
+        it('"-110.123" should be a string in float format', function () {
+            assert.ok(v.val("-110.123", "is float"));
+        });
+        it('"3.1415926" should be a string in float format', function () {
+            assert.ok(v.val("3.1415926", "is float"));
+        });
+        it('"110." should be a string in float format', function () {
+            assert.ok(v.val("110.", "is float"));
+        });
+        it('"100" should not be a string in float format', function () {
+            assert.equal(false, v.val("100", "is float"));
+        });
+        it('"-100" should not be a string in float format', function () {
+            assert.equal(false, v.val("-100", "is float"));
+        });
+        it('"3e30" should not be a string in float format', function () {
+            assert.equal(false, v.val("3e30", "is float"));
+        });
+        it('".0.1" should not be a string in float format', function () {
+            assert.equal(false, v.val(".0.1", "is float"));
+        });
+        it('"123abc" should not be a string in float format', function () {
+            assert.equal(false, v.val("123abc", "is float"));
+        });
+    });
+    describe('#hex color', function () {
+        it('"#aaa" should be a string in hex color format', function () {
+            assert.ok(v.val("#aaa", "is hex color"));
+        });
+        it('"#aaab" should be a string in hex color format', function () {
+            assert.ok(v.val("#aaab", "is hex color"));
+        });
+        it('"#000000" should be a string in hex color format', function () {
+            assert.ok(v.val("#000000", "is hex color"));
+        });
+        it('"#ffffffff" should be a string in hex color format', function () {
+            assert.ok(v.val("#ffffffff", "is hex color"));
+        });
+        it('"fff" should not be a string in hex color format', function () {
+            assert.equal(false, v.val("fff", "is hex color"));
+        });
+        it('"ffff" should not be a string in hex color format', function () {
+            assert.equal(false, v.val("ffff", "is hex color"));
+        });
+        it('"bcdefg" should not be a string in hex color format', function () {
+            assert.equal(false, v.val("bcdefg", "is hex color"));
+        });
+
+    });
+    describe('#hex number', function () {
+        it('"0xaaa" should be a string in hex number format', function () {
+            assert.ok(v.val("0xaaa", "is hex number"));
+        });
+        it('"0xaaab" should be a string in hex number format', function () {
+            assert.ok(v.val("0xaaab", "is hex number"));
+        });
+        it('"0x000000" should be a string in hex number format', function () {
+            assert.ok(v.val("0x000000", "is hex number"));
+        });
+        it('"0xffffffff" should be a string in hex number format', function () {
+            assert.ok(v.val("0xffffffff", "is hex number"));
+        });
+        it('"fff" should not be a string in hex number format', function () {
+            assert.ok(v.val("fff", "is hex number"));
+        });
+        it('"ffff" should not be a string in hex number format', function () {
+            assert.ok(v.val("ffff", "is hex number"));
+        });
+        it('"bcdefg" should not be a string in hex number format', function () {
+            assert.equal(false, v.val("bcdefg", "is hex number"));
+        });
+    });
+
+    describe('#phone', function () {
+        it('"021-59595959" should be a string in phone format', function () {
+            assert.ok(v.val("021-59595959", "is phone"));
+        });
+        it('"0577-1234567" should be a string in phone format', function () {
+            assert.ok(v.val("0577-1234567", "is phone"));
+        });
+        it('"01234-123123123" should not be a string in phone format', function () {
+            assert.equal(false, v.val("01234-123123123", "is phone"));
+        });
+        it('"58910293" should not be a string in phone format', function () {
+            assert.equal(false, v.val("58910293", "is phone"));
+        });
+    });
+
+    describe('#mobile', function () {
+        it('"13800138000" should be a string in mobile format', function () {
+            assert.ok(v.val("13800138000", "is mobile"));
+        });
+        it('"13113113111" should be a string in mobile format', function () {
+            assert.ok(v.val("13113113111", "is mobile"));
+        });
+        it('"12132132123" should not be a string in mobile format', function () {
+            assert.equal(false, v.val("12132132123", "is mobile"));
+        });
+        it('"021-59595959" should not be a string in mobile format', function () {
+            assert.equal(false, v.val("021-59595959", "is mobile"));
+        });
+    });
+
+    describe('#match', function () {
+        it('"123" should match regex /^\d+$/', function () {
+            assert.ok(v.val("123", "match /^\\d+$/"));
+        });
+        it('"abc123" should not match regex /^\d+$/', function () {
+            assert.equal(false, v.val("abc123", "match /^\\d+$/"));
+        });
+    });
+});

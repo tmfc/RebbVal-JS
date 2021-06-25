@@ -138,9 +138,9 @@ export default class EvalVisitor extends RebbValVisitor
     }
 
     visitString(ctx) {
-        let str = ctx.StringLiteral.getText()
+        let str = ctx.StringLiteral().getText()
         if(str != null)
-            this.setValue(ctx, str.substring(1,str.length() -1));
+            this.setValue(ctx, str.substring(1,str.length -1));
 
         return super.visitString(ctx);
     }
@@ -210,6 +210,18 @@ export default class EvalVisitor extends RebbValVisitor
         if(this.obj_type === "number" && typeof this.getValue(ctx.expression()) === "number")
         {
             let result = this.doCompare(this.obj, exprValue, ctx.op.type);
+            this.setValue(ctx, result);
+        }
+        else if(this.obj_type === "string" && typeof exprValue === "string")
+        {
+            let exprValue = this.getValue(ctx.expression());
+            if(ctx.op.type === RebbValParser.EQUAL)
+                result = this.obj === exprValue;
+            else
+            {
+                result = false;
+                this.error = "Unsupported Operation";
+            }
             this.setValue(ctx, result);
         }
         else if(this.isDate(this.obj) && this.isDate(exprValue))
@@ -380,6 +392,105 @@ export default class EvalVisitor extends RebbValVisitor
         }
         return super.visitIn(ctx);
     }
+
+    visitStringPosition(ctx) {
+        this.visit(ctx.expression());
+        let exprValue = this.getValue(ctx.expression());
+        if(this.obj_type === 'string' && typeof exprValue === 'string')
+        {
+            if(ctx.op.text === 'starts')
+                this.setValue(ctx, this.obj.startsWith(exprValue));
+            else if(ctx.op.text === 'ends')
+                this.setValue(ctx, this.obj.endsWith(exprValue));
+        }
+        else
+        {
+            this.setValue(ctx, false);
+            this.error = "UnsupportedObjectType";
+        }
+        return super.visitStringPosition(ctx);
+    }
+
+    visitContains(ctx) {
+        this.visit(ctx.expression());
+        let exprValue = this.getValue(ctx.expression());
+        if(this.obj_type === 'string' && typeof exprValue === 'string')
+        {
+           this.setValue(ctx, this.obj.includes(exprValue));
+        }
+        else
+        {
+            this.setValue(ctx, false);
+            this.error = "UnsupportedObjectType";
+        }
+        return super.visitContains(ctx);
+    }
+
+    visitNotEmpty(ctx) {
+        if(this.obj_type === "string")
+        {
+            this.setValue(ctx, this.obj !== null && this.obj !== "");
+        }
+        else
+        {
+            this.setValue(ctx, false);
+            this.error = "UnsupportedObjectType";
+        }
+        return super.visitNotEmpty(ctx);
+    }
+
+    visitMaxLength(ctx) {
+        let maxLength = parseInt(ctx.NumbericLiteral().getText());
+        if(this.obj_type === "string")
+        {
+            this.setValue(ctx, this.obj.length <= maxLength);
+        }
+        else
+        {
+            this.setValue(ctx, false);
+            this.error = "UnsupportedObjectType";
+        }
+
+        return super.visitMaxLength(ctx);
+    }
+
+    visitIsHex(ctx) {
+        const b = new BuildInFunctions();
+        const result = b.functionMap["HEX" + ctx.type.type](this.obj, this.obj_type)
+
+        this.setValue(ctx, result);
+        if(result === false)
+        {
+            this.error = b.error;
+        }
+        return super.visitIsHex(ctx);
+    }
+
+    visitMatch(ctx) {
+        let regex_str = ctx.regex.text;
+
+        if(this.obj_type === "string" && typeof regex_str === "string")
+        {
+            let regex_parts = regex_str.split('/');
+            if(regex_parts.length < 3)
+            {
+                this.setValue(ctx, false);
+                this.error = "RegexInvalid";
+            }
+            else
+            {
+                let regex = new RegExp(regex_parts[1],regex_parts[2]);
+
+                this.setValue(ctx, regex.test(this.obj));
+            }
+        }
+        else
+        {
+            this.valid = false;
+            this.error = UnsupportedObjectType;
+        }
+        return super.visitMatch(ctx);
+    }
 }
 
 class BuildInFunctions
@@ -406,6 +517,15 @@ class BuildInFunctions
         this.functionMap[RebbValParser.UUID] = this.checkUUID;
         this.functionMap[RebbValParser.MAC] = this.checkMAC;
         this.functionMap[RebbValParser.ID] = this.checkID;
+        this.functionMap[RebbValParser.PERCENTAGE] = this.checkPercentage;
+        this.functionMap[RebbValParser.BASE64] = this.checkBase64;
+        this.functionMap[RebbValParser.NUMBER] = this.checkNumber;
+        this.functionMap[RebbValParser.INT] = this.checkInt;
+        this.functionMap[RebbValParser.FLOAT] = this.checkFloat;
+        this.functionMap["HEX" + RebbValParser.COLOR] = this.checkHexColor;
+        this.functionMap["HEX" + RebbValParser.NUMBER] = this.checkHexNumber;
+        this.functionMap[RebbValParser.PHONE] = this.checkPhone;
+        this.functionMap[RebbValParser.MOBILE] = this.checkMobile;
     }
 
     static checkRegex(obj, obj_type, regex) {
@@ -642,5 +762,50 @@ class BuildInFunctions
         let checksumCharList = ["1","0","X","9","8","7","6","5","4","3","2"];
         let checksumChar = checksumCharList[checksum%11];
         return checksumChar === obj.substring(obj.length - 1);
+    }
+
+    checkPercentage(obj, obj_type) {
+        const regex = /^-?[1][0][0](\.[0]{0,2})?%$|^-?[1-9]?[0-9](\.[0-9]{0,2})?%$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkBase64(obj, obj_type) {
+        const regex = /^(?:([a-z0-9A-Z+\/]){4})*([a-z0-9A-Z+\/])(?:([a-z0-9A-Z+\/])==|([a-z0-9A-Z+\/]){2}=|([a-z0-9A-Z+\/]){3})$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkNumber(obj, obj_type) {
+        const regex = /^(?<![\w.])[+-]?(?:\d+\.\d+|\d+\.|\.\d+|\d+)(?:[eE][+-]?\d+)?(?![\w.])$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkInt(obj, obj_type) {
+        const regex = /^[-+]?\d+$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkFloat(obj, obj_type) {
+        const regex = /^(?<![\w.])[+-]?(?:\d+\.\d+|\d+\.|\.\d+)(?![\w.])$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkHexColor(obj, obj_type) {
+        const regex = /^#(([\da-fA-F]{3}){1,2}|([\da-fA-F]{4}){1,2})$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkHexNumber(obj, obj_type) {
+        const regex = /^(?:0[xX])?[\da-fA-F]+$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkPhone(obj, obj_type) {
+        const regex = /^(0\d{2}-\d{8}(-\d{1,4})?)|(0\d{3}-\d{7,8}(-\d{1,4})?)$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
+    }
+
+    checkMobile(obj, obj_type) {
+        const regex = /^1[3-9]\d{9}$/;
+        return BuildInFunctions.checkRegex(obj, obj_type, regex);
     }
 }
