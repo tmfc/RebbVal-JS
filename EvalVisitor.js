@@ -63,7 +63,7 @@ export default class EvalVisitor extends RebbValVisitor
             this.error = "ExpressionValueTypeNotMatch";
         }
 
-        return super.visitConjunction(ctx);
+        return null;//super.visitConjunction(ctx);
     }
 
     visitDisjunction(ctx) {
@@ -83,7 +83,7 @@ export default class EvalVisitor extends RebbValVisitor
             this.error = "ExpressionValueTypeNotMatch";
         }
 
-        return super.visitDisjunction(ctx);
+        return null;// super.visitDisjunction(ctx);
     }
 
     visitSingleTest(ctx) {
@@ -102,13 +102,13 @@ export default class EvalVisitor extends RebbValVisitor
             this.valid = false;
             this.error = "ExpressionValueTypeNotMatch";
         }
-        return super.visitSingleTest(ctx);
+        return null;// super.visitSingleTest(ctx);
     }
 
     visitNormalUnaryTest(ctx) {
         this.visit(ctx.positiveUnaryTest());
         this.setValue(ctx, this.getValue(ctx.positiveUnaryTest()));
-        return super.visitNormalUnaryTest(ctx);
+        return null;// super.visitNormalUnaryTest(ctx);
     }
 
     visitNegationUnaryTest(ctx) {
@@ -123,18 +123,18 @@ export default class EvalVisitor extends RebbValVisitor
             this.setValue(ctx, false);
             this.error = "ExpressionValueTypeNotMatch";
         }
-        return super.visitNegationUnaryTest(ctx);
+        return null;// super.visitNegationUnaryTest(ctx);
     }
 
     visitIgnoreUnaryTest(ctx) {
         this.setValue(ctx, true);
-        return super.visitIgnoreUnaryTest(ctx);
+        return null;// super.visitIgnoreUnaryTest(ctx);
     }
 
     visitPositiveUnaryTest(ctx) {
         this.visit(ctx.expression());
         this.setValue(ctx, this.getValue(ctx.expression()));
-        return super.visitPositiveUnaryTest(ctx);
+        return null;// super.visitPositiveUnaryTest(ctx);
     }
 
     visitString(ctx) {
@@ -142,7 +142,7 @@ export default class EvalVisitor extends RebbValVisitor
         if(str != null)
             this.setValue(ctx, str.substring(1,str.length -1));
 
-        return super.visitString(ctx);
+        return null;// super.visitString(ctx);
     }
 
     visitNumber(ctx) {
@@ -153,7 +153,7 @@ export default class EvalVisitor extends RebbValVisitor
             this.setValue(ctx, null);
             this.error = e.message;
         }
-        return super.visitNumber(ctx);
+        return null;// super.visitNumber(ctx);
     }
 
     visitDate(ctx) {
@@ -164,7 +164,7 @@ export default class EvalVisitor extends RebbValVisitor
             this.setValue(ctx, null);
             this.error = e.message;
         }
-        return super.visitDate(ctx);
+        return null;// super.visitDate(ctx);
     }
 
     doCompare(obj, value, type)
@@ -202,7 +202,7 @@ export default class EvalVisitor extends RebbValVisitor
     }
 
     visitCompare(ctx) {
-        super.visit(ctx.expression());
+        this.visit(ctx.expression());
 
         let result = false;
         let exprValue  = this.getValue(ctx.expression())
@@ -231,7 +231,7 @@ export default class EvalVisitor extends RebbValVisitor
 
         }
 
-        return super.visitCompare(ctx);
+        return null;// super.visitCompare(ctx);
     }
 
     visitBetween(ctx) {
@@ -264,7 +264,7 @@ export default class EvalVisitor extends RebbValVisitor
             this.error = "UnsupportedObjectType";
         }
 
-        return super.visitBetween(ctx);
+        return null;// super.visitBetween(ctx);
     }
 
     visitInterval(ctx) {
@@ -286,7 +286,7 @@ export default class EvalVisitor extends RebbValVisitor
             this.setValue(ctx, false);
             this.error = "UnsupportedObjectType";
         }
-        return super.visitInterval(ctx);
+        return null;// super.visitInterval(ctx);
     }
 
     doIntervalCompare(obj, l, r, start, end)
@@ -342,7 +342,7 @@ export default class EvalVisitor extends RebbValVisitor
             this.valid = false;
             this.error = "UnsupportedObjectType";
         }
-        return super.visitAgeCompare(ctx);
+        return null;// super.visitAgeCompare(ctx);
     }
 
     visitIs(ctx) {
@@ -354,7 +354,7 @@ export default class EvalVisitor extends RebbValVisitor
         {
             this.error = b.error;
         }
-        return super.visitIs(ctx);
+        return null;// super.visitIs(ctx);
     }
 
     visitArray(ctx) {
@@ -390,7 +390,7 @@ export default class EvalVisitor extends RebbValVisitor
             this.setValue(ctx, false);
             this.error = "UnsupportedObjectType";
         }
-        return super.visitIn(ctx);
+        return null;// super.visitIn(ctx);
     }
 
     visitStringPosition(ctx) {
@@ -408,7 +408,7 @@ export default class EvalVisitor extends RebbValVisitor
             this.setValue(ctx, false);
             this.error = "UnsupportedObjectType";
         }
-        return super.visitStringPosition(ctx);
+        return null;// super.visitStringPosition(ctx);
     }
 
     visitContains(ctx) {
@@ -423,7 +423,7 @@ export default class EvalVisitor extends RebbValVisitor
             this.setValue(ctx, false);
             this.error = "UnsupportedObjectType";
         }
-        return super.visitContains(ctx);
+        return null;// super.visitContains(ctx);
     }
 
     visitNotEmpty(ctx) {
@@ -436,7 +436,7 @@ export default class EvalVisitor extends RebbValVisitor
             this.setValue(ctx, false);
             this.error = "UnsupportedObjectType";
         }
-        return super.visitNotEmpty(ctx);
+        return null;// super.visitNotEmpty(ctx);
     }
 
     visitMaxLength(ctx) {
@@ -451,7 +451,7 @@ export default class EvalVisitor extends RebbValVisitor
             this.error = "UnsupportedObjectType";
         }
 
-        return super.visitMaxLength(ctx);
+        return null;// super.visitMaxLength(ctx);
     }
 
     visitIsHex(ctx) {
@@ -463,7 +463,7 @@ export default class EvalVisitor extends RebbValVisitor
         {
             this.error = b.error;
         }
-        return super.visitIsHex(ctx);
+        return null;// super.visitIsHex(ctx);
     }
 
     visitMatch(ctx) {
@@ -489,7 +489,7 @@ export default class EvalVisitor extends RebbValVisitor
             this.valid = false;
             this.error = UnsupportedObjectType;
         }
-        return super.visitMatch(ctx);
+        return null;// super.visitMatch(ctx);
     }
 }
 

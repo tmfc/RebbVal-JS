@@ -811,3 +811,54 @@ describe('RebbVal String', function() {
         });
     });
 });
+
+describe('RebbVal Composite', function() {
+    let v = new RebbVal();
+    describe('#not', function () {
+        it('100 should not less than 10', function () {
+            assert.ok(v.val(100, 'not(< 10)'));
+        });
+        it('100 should not less than 10(without brackets）', function () {
+            assert.ok(v.val(100, 'not < 10'));
+        });
+        it('100 should not less than 10 (without not operation)', function () {
+            assert.equal(false, v.val(100, '< 10'));
+        });
+    });
+    describe('#disjunction', function () {
+        it('70 should greater than 60 or less than 10', function () {
+            assert.ok(v.val(70, '>60 or <10'));
+        });
+        it('5 should greater than 60 or less than 10', function () {
+            assert.ok(v.val(5, '>60 or <10'));
+        });
+        it('30 should not  greater than 60 or less than 10', function () {
+            assert.equal(false, v.val(30, '>60 or <10'));
+        });
+    });
+    describe('#conjunction', function () {
+        it('100 should greater than 10 and less than 1000', function () {
+            assert.ok(v.val(100, '>10 and <1000'));
+        });
+        it('100 should not greater than 10 and less than 100', function () {
+            assert.equal(false, v.val(100, '>10 and <100'));
+        });
+    });
+
+    describe('#unary tests', function () {
+        it('10000 should greater than 10 and less than 1000 or equal to 10000', function () {
+            assert.ok(v.val(10000, '>10 and <1000 or =10000'));
+        });
+        it('1000 should greater than 10 and less than 100000 or equal to 10000', function () {
+            assert.ok(v.val(1000, '>10 and <100000 or =10000'));
+        });
+        it('1000 should greater than 100 or less than 10 or equal to 10000', function () {
+            assert.ok(v.val(1000, '>100 or <10 or =10000'));
+        });
+        it('1000 should not greater than 10 and less than 100 or equal to 10000', function () {
+            assert.equal(false, v.val(1000, '>10 and <100 or =10000'));
+        });
+    });
+
+
+});
