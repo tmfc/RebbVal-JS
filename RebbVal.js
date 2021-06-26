@@ -60,4 +60,9 @@ export default class RebbVal
     getErrors() {
         return this.errors;
     }
+
+    registerCustomValidator(name, customValidator)
+    {
+        this.engine.registerCustomValidator(name, customValidator);
+    }
 }

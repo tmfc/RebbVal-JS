@@ -1,5 +1,6 @@
 import assert from 'assert';
 import RebbVal from '../RebbVal.js';
+import RebbValError from "../RebbValError.js";
 
 describe('RebbVal Boolean', function() {
     let v = new RebbVal();
@@ -860,5 +861,28 @@ describe('RebbVal Composite', function() {
         });
     });
 
+    describe('#custom validator', function () {
+        let DemoValidator = function(obj) {
+            if(typeof obj === "string")
+            {
+                return obj === "Demo";
+            }
+            else
+            {
+                throw new RebbValError("Unsupported object type");
+            }
+        }
+        v.registerCustomValidator("Demo", DemoValidator);
 
+        it('"Demo" should pass custom DemoValidator ', function () {
+            assert.ok(v.val("Demo", 'is Demo'));
+        });
+        it('"Foobar" should not pass custom DemoValidator ', function () {
+            assert.equal(false, v.val("Foobar", 'is Demo'));
+        });
+        it('1 should not pass custom DemoValidator ', function () {
+            assert.equal(false, v.val(1, 'is Demo'));
+            assert.equal("1 is Demo failed(Unsupported object type)", v.getErrors()[0]);
+        });
+    });
 });

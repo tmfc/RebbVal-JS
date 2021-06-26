@@ -7,6 +7,7 @@ export default class EvalVisitor extends RebbValVisitor
     obj = null;
     obj_type = null;
     values = {};
+    customValidators = {};
 
     valid = false;
     error = null;
@@ -44,6 +45,11 @@ export default class EvalVisitor extends RebbValVisitor
     getError()
     {
         return this.error;
+    }
+
+    registerCustomValidator(name, customValidator)
+    {
+        this.customValidators[name] = customValidator;
     }
 
     visitConjunction(ctx) {
@@ -490,6 +496,25 @@ export default class EvalVisitor extends RebbValVisitor
             this.error = UnsupportedObjectType;
         }
         return null;// super.visitMatch(ctx);
+    }
+
+    visitIsCustom(ctx) {
+        super.visitIsCustom(ctx);
+        let key = ctx.type.text;
+        if(this.customValidators.hasOwnProperty(key))
+        {
+            try {
+                if(this.customValidators[key](this.obj))
+                    this.setValue(ctx, true);
+                else
+                    this.setValue(ctx, false);
+            } catch (e) {
+                this.error = e.message;
+            }
+        }
+        else
+            this.setValue(ctx, false);
+        return null;
     }
 }
 
