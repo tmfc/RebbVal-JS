@@ -1,5 +1,6 @@
 import RebbValParser from './RebbValParser.js';
 import RebbValVisitor from './RebbValVisitor.js';
+import RebbValConfig from "./RebbValConfig.js";
 
 
 export default class EvalVisitor extends RebbValVisitor
@@ -12,14 +13,35 @@ export default class EvalVisitor extends RebbValVisitor
     valid = false;
     error = null;
 
-    constructor(obj) {
+    constructor(obj, global_config) {
         super();
         this.setObject(obj);
+        this.initConfig(global_config);
     }
     setObject(obj)
     {
         this.obj = obj;
         this.obj_type = typeof this.obj;
+    }
+
+    initConfig(global_config)
+    {
+        if(global_config != null)
+        {
+            this.config =  global_config.slice(0);
+        }
+        else
+            this.config = [];
+        if(this.config[RebbValConfig.TRUE_STRING] == null)
+        {
+            let trueStringDefault = ["true","on", "1", "yes","ok"];
+            this.config[RebbValConfig.TRUE_STRING] = trueStringDefault;
+        }
+    }
+
+    addConfig(key, value)
+    {
+        this.config[key] = value;
     }
 
     setValue(ctx, val)
@@ -143,6 +165,8 @@ export default class EvalVisitor extends RebbValVisitor
         return null;// super.visitPositiveUnaryTest(ctx);
     }
 
+    //Basic element start
+    /** String */
     visitString(ctx) {
         let str = ctx.StringLiteral().getText()
         if(str != null)
@@ -151,6 +175,7 @@ export default class EvalVisitor extends RebbValVisitor
         return null;// super.visitString(ctx);
     }
 
+    /** Number */
     visitNumber(ctx) {
         try {
             this.setValue(ctx, parseFloat(ctx.NumbericLiteral().getText()));
@@ -162,6 +187,7 @@ export default class EvalVisitor extends RebbValVisitor
         return null;// super.visitNumber(ctx);
     }
 
+    /** Date */
     visitDate(ctx) {
         try {
             let date =new Date(ctx.DateLiteral().getText());
@@ -172,6 +198,25 @@ export default class EvalVisitor extends RebbValVisitor
         }
         return null;// super.visitDate(ctx);
     }
+
+    /** Array */
+    visitArray(ctx) {
+        try {
+            let arr = [];
+            for(var tree of ctx.arrayLiteral().NumbericLiteral())
+            {
+                let element = parseFloat(tree.getText());
+                arr.push(element);
+            }
+            this.setValue(ctx, arr);
+        } catch(e)
+        {
+            this.setValue(ctx, null);
+            this.error = e.message;
+        }
+        return null;
+    }
+    //Basic element end
 
     doCompare(obj, value, type)
     {
@@ -352,7 +397,7 @@ export default class EvalVisitor extends RebbValVisitor
     }
 
     visitIs(ctx) {
-        const b = new BuildInFunctions();
+        const b = new BuildInFunctions(this.config);
         const result = b.functionMap[ctx.type.type](this.obj, this.obj_type)
 
         this.setValue(ctx, result);
@@ -363,22 +408,6 @@ export default class EvalVisitor extends RebbValVisitor
         return null;// super.visitIs(ctx);
     }
 
-    visitArray(ctx) {
-        try {
-            let arr = [];
-            for(var tree of ctx.arrayLiteral().NumbericLiteral())
-            {
-                let element = parseFloat(tree.getText());
-                arr.push(element);
-            }
-            this.setValue(ctx, arr);
-        } catch(e)
-        {
-            this.setValue(ctx, null);
-            this.error = e.message;
-        }
-        return null;
-    }
 
     visitIn(ctx) {
         this.visit(ctx.expression());
@@ -524,9 +553,15 @@ class BuildInFunctions
 
     functionMap = [];
 
-    constructor() {
-        this.functionMap[RebbValParser.TRUE] = this.checkTrue;
-        this.functionMap[RebbValParser.FALSE] = this.checkFalse;
+    trueString = '';
+
+    config;
+
+    constructor(config) {
+        this.config = config;
+
+        this.functionMap[RebbValParser.TRUE] = this.checkTrue.bind(this);
+        this.functionMap[RebbValParser.FALSE] = this.checkFalse.bind(this);
         this.functionMap[RebbValParser.LEAPYEAR] = this.checkLeapYear;
         this.functionMap[RebbValParser.LEAPDAY] = this.checkLeapDay;
         this.functionMap[RebbValParser.DOMAIN] = this.checkDomain;
@@ -551,6 +586,8 @@ class BuildInFunctions
         this.functionMap["HEX" + RebbValParser.NUMBER] = this.checkHexNumber;
         this.functionMap[RebbValParser.PHONE] = this.checkPhone;
         this.functionMap[RebbValParser.MOBILE] = this.checkMobile;
+
+        this.trueString = ['true','on', '1', 'yes','ok'];
     }
 
     static checkRegex(obj, obj_type, regex) {
@@ -569,7 +606,12 @@ class BuildInFunctions
         if(obj_type === "boolean")
             return obj;
         else if(obj_type === "number")
-            return obj != 0;
+            return obj !== 0;
+        else if(obj_type === "string")
+        {
+            let trueString = this.config[RebbValConfig.TRUE_STRING];
+            return trueString.indexOf(obj) != -1;
+        }
         else
         {
             this.error = "ObjectTypeNotSupport";
@@ -582,6 +624,11 @@ class BuildInFunctions
             return !obj;
         else if(obj_type === "number")
             return obj == 0;
+        else if(obj_type === "string")
+        {
+            let trueString = this.config[RebbValConfig.TRUE_STRING];
+            return trueString.indexOf(obj) == -1;
+        }
         else
         {
             this.error = "ObjectTypeNotSupport";

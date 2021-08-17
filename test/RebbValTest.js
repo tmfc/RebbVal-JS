@@ -1,6 +1,8 @@
 import assert from 'assert';
 import RebbVal from '../RebbVal.js';
 import RebbValError from "../RebbValError.js";
+import RebbValConfig from "../RebbValConfig.js";
+
 
 describe('RebbVal Boolean', function() {
     let v = new RebbVal();
@@ -511,6 +513,181 @@ describe('RebbVal Identification', function() {
 
 describe('RebbVal String', function() {
     let v = new RebbVal();
+    describe('#true', function () {
+        before(function() {
+            RebbVal.addGlobalConfig(RebbValConfig.TRUE_STRING, ["true","on", "1", "yes","ok"]);
+        });
+        it('"true" should be true', function () {
+            assert.ok(v.val("true", "is true"));
+        });
+        it('"yes" should be true', function () {
+            assert.ok(v.val("yes", "is true"));
+        });
+        it('"ok" should be true', function () {
+            assert.ok(v.val("ok", "is true"));
+        });
+        it('"1" should be true', function () {
+            assert.ok(v.val("1", "is true"));
+        });
+        it('"on" should be true', function () {
+            assert.ok(v.val("on", "is true"));
+        });
+        it('"some random string" should not be true', function () {
+            assert.equal(false, v.val("some random string", "is true"));
+        });
+        it('"false" should not be true', function () {
+            assert.equal(false, v.val("false", "is true"));
+        });
+    });
+    describe('#true configured', function () {
+        before(function() {
+            RebbVal.addGlobalConfig(RebbValConfig.TRUE_STRING, ["true","on", "1", "yes","ok"]);
+        });
+        let v1 = new RebbVal();
+        v1.addConfig(RebbValConfig.TRUE_STRING,["true"]);
+        it('"true" should be true after configuration', function () {
+            assert.ok(v1.val("true", "is true"));
+        });
+        it('"yes" should not be true after configuration', function () {
+            assert.equal(false, v1.val("yes", "is true"));
+        });
+        it('"ok" should not be true after configuration', function () {
+            assert.equal(false, v1.val("ok", "is true"));
+        });
+        it('"1" should not be true after configuration', function () {
+            assert.equal(false, v1.val("1", "is true"));
+        });
+        it('"on" should not be true after configuration', function () {
+            assert.equal(false, v1.val("on", "is true"));
+        });
+        it('"some random string" should not be true after configuration', function () {
+            assert.equal(false, v1.val("some random string", "is true"));
+        });
+        it('"false" should not be true after configuration', function () {
+            assert.equal(false, v1.val("false", "is true"));
+        });
+    });
+    describe('#true global configured', function () {
+        before(function() {
+            RebbVal.addGlobalConfig(RebbValConfig.TRUE_STRING, ["true"]);
+
+        });
+        it('"true" should be true after configuration', function () {
+            let v2 = new RebbVal();
+            assert.ok(v2.val("true", "is true"));
+        });
+        it('"yes" should not be true after configuration', function () {
+            let v2 = new RebbVal();
+            assert.equal(false, v2.val("yes", "is true"));
+        });
+        it('"ok" should not be true after configuration', function () {
+            let v2 = new RebbVal();
+            assert.equal(false, v2.val("ok", "is true"));
+        });
+        it('"1" should not be true after configuration', function () {
+            let v2 = new RebbVal();
+            assert.equal(false, v2.val("1", "is true"));
+        });
+        it('"on" should not be true after configuration', function () {
+            let v2 = new RebbVal();
+            assert.equal(false, v2.val("on", "is true"));
+        });
+        it('"some random string" should not be true after configuration', function () {
+            let v2 = new RebbVal();
+            assert.equal(false, v2.val("some random string", "is true"));
+        });
+        it('"false" should not be true after configuration', function () {
+            let v2 = new RebbVal();
+            assert.equal(false, v2.val("false", "is true"));
+        });
+    });
+    describe('#false', function () {
+        before(function() {
+            RebbVal.addGlobalConfig(RebbValConfig.TRUE_STRING, ["true","on", "1", "yes","ok"]);
+        });
+        it('"true" should not be false', function () {
+            assert.equal(false, v.val("true", "is false"));
+        });
+        it('"yes" should not be false', function () {
+            assert.equal(false, v.val("yes", "is false"));
+        });
+        it('"ok" should not be false', function () {
+            assert.equal(false, v.val("ok", "is false"));
+        });
+        it('"1" should not be false', function () {
+            assert.equal(false, v.val("1", "is false"));
+        });
+        it('"on" should not be false', function () {
+            assert.equal(false, v.val("on", "is false"));
+        });
+        it('"false" should be false', function () {
+            assert.ok(v.val("false", "is false"));
+        });
+        it('"some random string" should be false', function () {
+            assert.ok(v.val("some random string", "is false"));
+        });
+    });
+    describe('#false configured', function () {
+        before(function() {
+            RebbVal.addGlobalConfig(RebbValConfig.TRUE_STRING, ["true","on", "1", "yes","ok"]);
+        });
+        let v1 = new RebbVal();
+        v1.addConfig(RebbValConfig.TRUE_STRING, ['true']);
+        it('"true" should not be false after configuration', function () {
+            assert.equal(false, v1.val("true", "is false"));
+        });
+        it('"yes" should be false after configuration', function () {
+            assert.ok(v1.val("yes", "is false"));
+        });
+        it('"ok" should be false after configuration', function () {
+            assert.ok(v1.val("ok", "is false"));
+        });
+        it('"1" should be false after configuration', function () {
+            assert.ok(v1.val("1", "is false"));
+        });
+        it('"on" should be false after configuration', function () {
+            assert.ok(v1.val("on", "is false"));
+        });
+        it('"false" should be false after configuration', function () {
+            assert.ok(v1.val("false", "is false"));
+        });
+        it('"some random string" should be false after configuration', function () {
+            assert.ok(v1.val("some random string", "is false"));
+        });
+    });
+    describe('#false global configured', function () {
+        before(function() {
+            RebbVal.addGlobalConfig(RebbValConfig.TRUE_STRING, ["true"]);
+        });
+        it('"true" should not be false after configuration', function () {
+            let v2 = new RebbVal();
+            assert.equal(false,v2.val("true", "is false"));
+        });
+        it('"yes" should be false after configuration', function () {
+            let v2 = new RebbVal();
+            assert.ok(v2.val("yes", "is false"));
+        });
+        it('"ok" should be false after configuration', function () {
+            let v2 = new RebbVal();
+            assert.ok(v2.val("ok", "is false"));
+        });
+        it('"1" should be false after configuration', function () {
+            let v2 = new RebbVal();
+            assert.ok(v2.val("1", "is false"));
+        });
+        it('"on" should be false after configuration', function () {
+            let v2 = new RebbVal();
+            assert.ok(v2.val("on", "is false"));
+        });
+        it('"some random string" should be false after configuration', function () {
+            let v2 = new RebbVal();
+            assert.ok(v2.val("some random string", "is false"));
+        });
+        it('"false" should be false after configuration', function () {
+            let v2 = new RebbVal();
+            assert.ok(v2.val("false", "is false"));
+        });
+    });
     describe('#equal', function () {
         it('"a string" should equal to "a string"', function () {
             assert.ok(v.val("a string", "='a string'"));

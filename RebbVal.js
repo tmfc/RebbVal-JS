@@ -7,8 +7,13 @@ export default class RebbVal
 {
     has_error = false;
     errors = [];
+    static global_config = [];
+    static addGlobalConfig(key, value)
+    {
+        RebbVal.global_config[key] = value;
+    }
     constructor() {
-        this.engine = new EvalVisitor("");
+        this.engine = new EvalVisitor("", RebbVal.global_config);
         this.errors = [];
     }
 
@@ -64,5 +69,10 @@ export default class RebbVal
     registerCustomValidator(name, customValidator)
     {
         this.engine.registerCustomValidator(name, customValidator);
+    }
+
+    addConfig(key, value)
+    {
+        this.engine.addConfig(key, value);
     }
 }
