@@ -762,7 +762,7 @@ class BuildInFunctions
     }
 
     checkISBN(obj, obj_type) {
-        const regex = /^(\d{13})$|^(978\-\d\-\d{3}\-\d{5}\-\d)$/;
+        const regex = /^(?:ISBN(?:-1[03])?:?●)?(?=[-0-9●]{17}$|[-0-9X●]{13}$|[0-9X]{10}$)(?:97[89][-●]?)?[0-9]{1,5}[-●]?(?:[0-9]+[-●]?){2}[0-9X]$/;
         let result = BuildInFunctions.checkRegex(obj, obj_type, regex);
         if(result)
         {
