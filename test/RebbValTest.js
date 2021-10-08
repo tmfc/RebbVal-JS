@@ -714,6 +714,9 @@ describe('RebbVal String', function() {
         it('"That string" should not start with "This"', function () {
             assert.equal(false, v.val("That string", "starts with 'This'"));
         });
+        it('"This string" should not start with "This very long string"', function () {
+            assert.equal(false, v.val("This string", "starts with 'This very long string'"));
+        });
     });
     describe('#ends with', function () {
         it('"This string" should end with "string"', function () {
@@ -721,6 +724,9 @@ describe('RebbVal String', function() {
         });
         it('"That string" should not end with "foobar"', function () {
             assert.equal(false, v.val("That string", "ends with 'foobar'"));
+        });
+        it('"This string" should not end with "a very long string"', function () {
+            assert.equal(false, v.val("This string", "ends with 'a very long string'"));
         });
     });
 
