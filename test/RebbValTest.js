@@ -415,6 +415,21 @@ describe('RebbVal Array', function() {
             assert.ok(v.val(8, 'not in [1,2,3]'));
         });
     });
+
+    describe('#array is unique', function () {
+        it('array [1, 2, 3] should be unique', function () {
+            assert.ok(v.val([1, 2, 3], 'is unique'));
+        });
+        it('array [1, 2, 2] should be not unique', function () {
+            assert.equal(false, v.val([1, 2, 2], 'is unique'));
+        });
+        it('validate non array is unique should have error', function () {
+            assert.equal(false, v.val(8, 'is unique'));
+            assert.ok(v.has_error);
+            assert.equal(1,v.getErrors().length);
+            assert.equal("8 is unique failed(ObjectTypeNotSupported)", v.getErrors()[0]);
+        });
+    });
 });
 
 describe('RebbVal Localization', function() {

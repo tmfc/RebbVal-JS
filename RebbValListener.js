@@ -131,6 +131,15 @@ export default class RebbValListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
+	// Enter a parse tree produced by RebbValParser#ArrayIsUnique.
+	enterArrayIsUnique(ctx) {
+	}
+
+	// Exit a parse tree produced by RebbValParser#ArrayIsUnique.
+	exitArrayIsUnique(ctx) {
+	}
+
+
 	// Enter a parse tree produced by RebbValParser#IsHex.
 	enterIsHex(ctx) {
 	}

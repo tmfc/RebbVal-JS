@@ -489,6 +489,21 @@ export default class EvalVisitor extends RebbValVisitor
         return null;// super.visitMaxLength(ctx);
     }
 
+    visitArrayIsUnique(ctx) {
+        if(!Array.isArray(this.obj))
+        {
+            this.setValue(ctx, false);
+            this.error = "ObjectTypeNotSupported";
+        }
+        else
+        {
+            let uniqueArray = [...new Set(this.obj)];
+            let result = this.obj.length === uniqueArray.length;
+            this.setValue(ctx, result);
+        }
+        return null;//super.visitArrayIsUnique(ctx);
+    }
+
     visitIsHex(ctx) {
         const b = new BuildInFunctions();
         const result = b.functionMap["HEX" + ctx.type.type](this.obj, this.obj_type)

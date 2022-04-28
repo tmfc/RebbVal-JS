@@ -90,6 +90,12 @@ export default class RebbValVisitor extends antlr4.tree.ParseTreeVisitor {
 	}
 
 
+	// Visit a parse tree produced by RebbValParser#ArrayIsUnique.
+	visitArrayIsUnique(ctx) {
+	  return this.visitChildren(ctx);
+	}
+
+
 	// Visit a parse tree produced by RebbValParser#IsHex.
 	visitIsHex(ctx) {
 	  return this.visitChildren(ctx);

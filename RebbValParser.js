@@ -6,7 +6,7 @@ import RebbValVisitor from './RebbValVisitor.js';
 
 
 const serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786",
-    "\u5964\u0003J`\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
+    "\u5964\u0003Kb\u0004\u0002\t\u0002\u0004\u0003\t\u0003\u0004\u0004\t",
     "\u0004\u0004\u0005\t\u0005\u0004\u0006\t\u0006\u0003\u0002\u0003\u0002",
     "\u0003\u0002\u0003\u0002\u0003\u0002\u0003\u0002\u0003\u0002\u0003\u0002",
     "\u0003\u0002\u0007\u0002\u0016\n\u0002\f\u0002\u000e\u0002\u0019\u000b",
@@ -19,57 +19,58 @@ const serializedATN = ["\u0003\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786",
     "\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005",
     "\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005",
     "\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005",
-    "\u0003\u0005\u0003\u0005\u0003\u0005\u0005\u0005S\n\u0005\u0003\u0006",
-    "\u0003\u0006\u0003\u0006\u0003\u0006\u0007\u0006Y\n\u0006\f\u0006\u000e",
-    "\u0006\\\u000b\u0006\u0003\u0006\u0003\u0006\u0003\u0006\u0002\u0003",
-    "\u0002\u0007\u0002\u0004\u0006\b\n\u0002\t\u0003\u0002&+\u0004\u0002",
-    ".@BG\u0004\u0002>>AA\u0003\u0002,-\u0003\u0002\u0013\u0014\u0004\u0002",
-    "\u0006\u0006\u0016\u0017\u0004\u0002\u0007\u0007\u0016\u0017\u0002r",
-    "\u0002\f\u0003\u0002\u0002\u0002\u0004$\u0003\u0002\u0002\u0002\u0006",
-    "&\u0003\u0002\u0002\u0002\bR\u0003\u0002\u0002\u0002\nT\u0003\u0002",
-    "\u0002\u0002\f\r\b\u0002\u0001\u0002\r\u000e\u0005\u0004\u0003\u0002",
-    "\u000e\u0017\u0003\u0002\u0002\u0002\u000f\u0010\f\u0005\u0002\u0002",
-    "\u0010\u0011\u0007\u0003\u0002\u0002\u0011\u0016\u0005\u0004\u0003\u0002",
-    "\u0012\u0013\f\u0004\u0002\u0002\u0013\u0014\u0007\u0004\u0002\u0002",
-    "\u0014\u0016\u0005\u0004\u0003\u0002\u0015\u000f\u0003\u0002\u0002\u0002",
-    "\u0015\u0012\u0003\u0002\u0002\u0002\u0016\u0019\u0003\u0002\u0002\u0002",
-    "\u0017\u0015\u0003\u0002\u0002\u0002\u0017\u0018\u0003\u0002\u0002\u0002",
-    "\u0018\u0003\u0003\u0002\u0002\u0002\u0019\u0017\u0003\u0002\u0002\u0002",
-    "\u001a%\u0005\u0006\u0004\u0002\u001b\u001d\u0007\u0005\u0002\u0002",
-    "\u001c\u001e\u0007\u0006\u0002\u0002\u001d\u001c\u0003\u0002\u0002\u0002",
-    "\u001d\u001e\u0003\u0002\u0002\u0002\u001e\u001f\u0003\u0002\u0002\u0002",
-    "\u001f!\u0005\u0006\u0004\u0002 \"\u0007\u0007\u0002\u0002! \u0003\u0002",
-    "\u0002\u0002!\"\u0003\u0002\u0002\u0002\"%\u0003\u0002\u0002\u0002#",
-    "%\u0007\b\u0002\u0002$\u001a\u0003\u0002\u0002\u0002$\u001b\u0003\u0002",
-    "\u0002\u0002$#\u0003\u0002\u0002\u0002%\u0005\u0003\u0002\u0002\u0002",
-    "&\'\u0005\b\u0005\u0002\'\u0007\u0003\u0002\u0002\u0002()\t\u0002\u0002",
-    "\u0002)S\u0005\b\u0005\u0002*+\u0007\t\u0002\u0002+,\u0005\b\u0005\u0002",
-    ",-\u0007\u0003\u0002\u0002-.\u0005\b\u0005\u0002.S\u0003\u0002\u0002",
-    "\u0002/0\u0007\n\u0002\u00020S\u0005\b\u0005\u000212\u0007\u000b\u0002",
-    "\u00022S\u0005\b\u0005\u000234\u0007\u0005\u0002\u00024S\u0007\f\u0002",
-    "\u000256\u0007\r\u0002\u000267\u0007\u000e\u0002\u00027S\u0007\u001c",
-    "\u0002\u000289\u0007\u000f\u0002\u00029S\t\u0003\u0002\u0002:;\u0007",
-    "\u000f\u0002\u0002;<\u0007\u0010\u0002\u0002<S\t\u0004\u0002\u0002=",
-    ">\u0007\u000f\u0002\u0002>S\u0007H\u0002\u0002?@\u0007\u0011\u0002\u0002",
-    "@S\u0007\u001a\u0002\u0002AB\t\u0005\u0002\u0002BC\u0007\u0012\u0002",
-    "\u0002CS\u0005\b\u0005\u0002DE\t\u0006\u0002\u0002EF\u0007\u0015\u0002",
-    "\u0002FS\u0005\b\u0005\u0002GH\t\u0007\u0002\u0002HI\u0005\b\u0005\u0002",
-    "IJ\u0007\u0018\u0002\u0002JK\u0005\b\u0005\u0002KL\t\b\u0002\u0002L",
-    "S\u0003\u0002\u0002\u0002MS\u0005\n\u0006\u0002NS\u0007\u001b\u0002",
-    "\u0002OS\u0007\u001c\u0002\u0002PS\u0007\u001d\u0002\u0002QS\u0007\u001e",
-    "\u0002\u0002R(\u0003\u0002\u0002\u0002R*\u0003\u0002\u0002\u0002R/\u0003",
-    "\u0002\u0002\u0002R1\u0003\u0002\u0002\u0002R3\u0003\u0002\u0002\u0002",
-    "R5\u0003\u0002\u0002\u0002R8\u0003\u0002\u0002\u0002R:\u0003\u0002\u0002",
-    "\u0002R=\u0003\u0002\u0002\u0002R?\u0003\u0002\u0002\u0002RA\u0003\u0002",
-    "\u0002\u0002RD\u0003\u0002\u0002\u0002RG\u0003\u0002\u0002\u0002RM\u0003",
-    "\u0002\u0002\u0002RN\u0003\u0002\u0002\u0002RO\u0003\u0002\u0002\u0002",
-    "RP\u0003\u0002\u0002\u0002RQ\u0003\u0002\u0002\u0002S\t\u0003\u0002",
-    "\u0002\u0002TU\u0007\u0017\u0002\u0002UZ\u0007\u001c\u0002\u0002VW\u0007",
-    "\u0019\u0002\u0002WY\u0007\u001c\u0002\u0002XV\u0003\u0002\u0002\u0002",
-    "Y\\\u0003\u0002\u0002\u0002ZX\u0003\u0002\u0002\u0002Z[\u0003\u0002",
-    "\u0002\u0002[]\u0003\u0002\u0002\u0002\\Z\u0003\u0002\u0002\u0002]^",
-    "\u0007\u0016\u0002\u0002^\u000b\u0003\u0002\u0002\u0002\t\u0015\u0017",
-    "\u001d!$RZ"].join("");
+    "\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005\u0003\u0005\u0005\u0005",
+    "U\n\u0005\u0003\u0006\u0003\u0006\u0003\u0006\u0003\u0006\u0007\u0006",
+    "[\n\u0006\f\u0006\u000e\u0006^\u000b\u0006\u0003\u0006\u0003\u0006\u0003",
+    "\u0006\u0002\u0003\u0002\u0007\u0002\u0004\u0006\b\n\u0002\t\u0003\u0002",
+    "\',\u0004\u0002/ACH\u0004\u0002??BB\u0003\u0002-.\u0003\u0002\u0014",
+    "\u0015\u0004\u0002\u0006\u0006\u0017\u0018\u0004\u0002\u0007\u0007\u0017",
+    "\u0018\u0002u\u0002\f\u0003\u0002\u0002\u0002\u0004$\u0003\u0002\u0002",
+    "\u0002\u0006&\u0003\u0002\u0002\u0002\bT\u0003\u0002\u0002\u0002\nV",
+    "\u0003\u0002\u0002\u0002\f\r\b\u0002\u0001\u0002\r\u000e\u0005\u0004",
+    "\u0003\u0002\u000e\u0017\u0003\u0002\u0002\u0002\u000f\u0010\f\u0005",
+    "\u0002\u0002\u0010\u0011\u0007\u0003\u0002\u0002\u0011\u0016\u0005\u0004",
+    "\u0003\u0002\u0012\u0013\f\u0004\u0002\u0002\u0013\u0014\u0007\u0004",
+    "\u0002\u0002\u0014\u0016\u0005\u0004\u0003\u0002\u0015\u000f\u0003\u0002",
+    "\u0002\u0002\u0015\u0012\u0003\u0002\u0002\u0002\u0016\u0019\u0003\u0002",
+    "\u0002\u0002\u0017\u0015\u0003\u0002\u0002\u0002\u0017\u0018\u0003\u0002",
+    "\u0002\u0002\u0018\u0003\u0003\u0002\u0002\u0002\u0019\u0017\u0003\u0002",
+    "\u0002\u0002\u001a%\u0005\u0006\u0004\u0002\u001b\u001d\u0007\u0005",
+    "\u0002\u0002\u001c\u001e\u0007\u0006\u0002\u0002\u001d\u001c\u0003\u0002",
+    "\u0002\u0002\u001d\u001e\u0003\u0002\u0002\u0002\u001e\u001f\u0003\u0002",
+    "\u0002\u0002\u001f!\u0005\u0006\u0004\u0002 \"\u0007\u0007\u0002\u0002",
+    "! \u0003\u0002\u0002\u0002!\"\u0003\u0002\u0002\u0002\"%\u0003\u0002",
+    "\u0002\u0002#%\u0007\b\u0002\u0002$\u001a\u0003\u0002\u0002\u0002$\u001b",
+    "\u0003\u0002\u0002\u0002$#\u0003\u0002\u0002\u0002%\u0005\u0003\u0002",
+    "\u0002\u0002&\'\u0005\b\u0005\u0002\'\u0007\u0003\u0002\u0002\u0002",
+    "()\t\u0002\u0002\u0002)U\u0005\b\u0005\u0002*+\u0007\t\u0002\u0002+",
+    ",\u0005\b\u0005\u0002,-\u0007\u0003\u0002\u0002-.\u0005\b\u0005\u0002",
+    ".U\u0003\u0002\u0002\u0002/0\u0007\n\u0002\u00020U\u0005\b\u0005\u0002",
+    "12\u0007\u000b\u0002\u00022U\u0005\b\u0005\u000234\u0007\u0005\u0002",
+    "\u00024U\u0007\f\u0002\u000256\u0007\r\u0002\u000267\u0007\u000e\u0002",
+    "\u00027U\u0007\u001d\u0002\u000289\u0007\u000f\u0002\u00029U\t\u0003",
+    "\u0002\u0002:;\u0007\u000f\u0002\u0002;U\u0007\u0010\u0002\u0002<=\u0007",
+    "\u000f\u0002\u0002=>\u0007\u0011\u0002\u0002>U\t\u0004\u0002\u0002?",
+    "@\u0007\u000f\u0002\u0002@U\u0007I\u0002\u0002AB\u0007\u0012\u0002\u0002",
+    "BU\u0007\u001b\u0002\u0002CD\t\u0005\u0002\u0002DE\u0007\u0013\u0002",
+    "\u0002EU\u0005\b\u0005\u0002FG\t\u0006\u0002\u0002GH\u0007\u0016\u0002",
+    "\u0002HU\u0005\b\u0005\u0002IJ\t\u0007\u0002\u0002JK\u0005\b\u0005\u0002",
+    "KL\u0007\u0019\u0002\u0002LM\u0005\b\u0005\u0002MN\t\b\u0002\u0002N",
+    "U\u0003\u0002\u0002\u0002OU\u0005\n\u0006\u0002PU\u0007\u001c\u0002",
+    "\u0002QU\u0007\u001d\u0002\u0002RU\u0007\u001e\u0002\u0002SU\u0007\u001f",
+    "\u0002\u0002T(\u0003\u0002\u0002\u0002T*\u0003\u0002\u0002\u0002T/\u0003",
+    "\u0002\u0002\u0002T1\u0003\u0002\u0002\u0002T3\u0003\u0002\u0002\u0002",
+    "T5\u0003\u0002\u0002\u0002T8\u0003\u0002\u0002\u0002T:\u0003\u0002\u0002",
+    "\u0002T<\u0003\u0002\u0002\u0002T?\u0003\u0002\u0002\u0002TA\u0003\u0002",
+    "\u0002\u0002TC\u0003\u0002\u0002\u0002TF\u0003\u0002\u0002\u0002TI\u0003",
+    "\u0002\u0002\u0002TO\u0003\u0002\u0002\u0002TP\u0003\u0002\u0002\u0002",
+    "TQ\u0003\u0002\u0002\u0002TR\u0003\u0002\u0002\u0002TS\u0003\u0002\u0002",
+    "\u0002U\t\u0003\u0002\u0002\u0002VW\u0007\u0018\u0002\u0002W\\\u0007",
+    "\u001d\u0002\u0002XY\u0007\u001a\u0002\u0002Y[\u0007\u001d\u0002\u0002",
+    "ZX\u0003\u0002\u0002\u0002[^\u0003\u0002\u0002\u0002\\Z\u0003\u0002",
+    "\u0002\u0002\\]\u0003\u0002\u0002\u0002]_\u0003\u0002\u0002\u0002^\\",
+    "\u0003\u0002\u0002\u0002_`\u0007\u0017\u0002\u0002`\u000b\u0003\u0002",
+    "\u0002\u0002\t\u0015\u0017\u001d!$T\\"].join("");
 
 
 const atn = new antlr4.atn.ATNDeserializer().deserialize(serializedATN);
@@ -83,11 +84,11 @@ export default class RebbValParser extends antlr4.Parser {
     static grammarFileName = "RebbVal.g4";
     static literalNames = [ null, "'and'", "'or'", "'not'", "'('", "')'", 
                             "'-'", "'between'", "'in'", "'contains'", "'empty'", 
-                            "'max'", "'length'", "'is'", "'hex'", "'match'", 
-                            "'than'", "'starts'", "'ends'", "'with'", "']'", 
-                            "'['", "'..'", "','", null, null, null, null, 
+                            "'max'", "'length'", "'is'", "'unique'", "'hex'", 
+                            "'match'", "'than'", "'starts'", "'ends'", "'with'", 
+                            "']'", "'['", "'..'", "','", null, null, null, 
                             null, null, null, null, null, null, null, null, 
-                            "'='", "'!='", "'<'", "'<='", "'>'", "'>='", 
+                            null, "'='", "'!='", "'<'", "'<='", "'>'", "'>='", 
                             "'older'", "'younger'", "'true'", "'false'", 
                             "'leapyear'", "'leapday'", "'domain'", "'email'", 
                             "'ipv4'", "'ipv6'", "'private_ip'", "'url'", 
@@ -98,7 +99,7 @@ export default class RebbValParser extends antlr4.Parser {
     static symbolicNames = [ null, null, null, null, null, null, null, null, 
                              null, null, null, null, null, null, null, null, 
                              null, null, null, null, null, null, null, null, 
-                             "RegularExpressionLiteral", "StringLiteral", 
+                             null, "RegularExpressionLiteral", "StringLiteral", 
                              "NumbericLiteral", "DateLiteral", "TimeLiteral", 
                              "DIGITS", "YEAR", "MONTH", "DAY", "HOUR", "MINUTE", 
                              "SECOND", "EQUAL", "NEQUAL", "LT", "LTE", "GT", 
@@ -319,7 +320,7 @@ export default class RebbValParser extends antlr4.Parser {
 	    this.enterRule(localctx, 6, RebbValParser.RULE_expression);
 	    var _la = 0; // Token type
 	    try {
-	        this.state = 80;
+	        this.state = 82;
 	        this._errHandler.sync(this);
 	        var la_ = this._interp.adaptivePredict(this._input,5,this._ctx);
 	        switch(la_) {
@@ -329,7 +330,7 @@ export default class RebbValParser extends antlr4.Parser {
 	            this.state = 38;
 	            localctx.op = this._input.LT(1);
 	            _la = this._input.LA(1);
-	            if(!(((((_la - 36)) & ~0x1f) == 0 && ((1 << (_la - 36)) & ((1 << (RebbValParser.EQUAL - 36)) | (1 << (RebbValParser.NEQUAL - 36)) | (1 << (RebbValParser.LT - 36)) | (1 << (RebbValParser.LTE - 36)) | (1 << (RebbValParser.GT - 36)) | (1 << (RebbValParser.GTE - 36)))) !== 0))) {
+	            if(!(((((_la - 37)) & ~0x1f) == 0 && ((1 << (_la - 37)) & ((1 << (RebbValParser.EQUAL - 37)) | (1 << (RebbValParser.NEQUAL - 37)) | (1 << (RebbValParser.LT - 37)) | (1 << (RebbValParser.LTE - 37)) | (1 << (RebbValParser.GT - 37)) | (1 << (RebbValParser.GTE - 37)))) !== 0))) {
 	                localctx.op = this._errHandler.recoverInline(this);
 	            }
 	            else {
@@ -399,7 +400,7 @@ export default class RebbValParser extends antlr4.Parser {
 	            this.state = 55;
 	            localctx.type = this._input.LT(1);
 	            _la = this._input.LA(1);
-	            if(!(((((_la - 44)) & ~0x1f) == 0 && ((1 << (_la - 44)) & ((1 << (RebbValParser.TRUE - 44)) | (1 << (RebbValParser.FALSE - 44)) | (1 << (RebbValParser.LEAPYEAR - 44)) | (1 << (RebbValParser.LEAPDAY - 44)) | (1 << (RebbValParser.DOMAIN - 44)) | (1 << (RebbValParser.EMAIL - 44)) | (1 << (RebbValParser.IPV4 - 44)) | (1 << (RebbValParser.IPV6 - 44)) | (1 << (RebbValParser.PRIVATEIP - 44)) | (1 << (RebbValParser.URL - 44)) | (1 << (RebbValParser.MAC - 44)) | (1 << (RebbValParser.IMEI - 44)) | (1 << (RebbValParser.IMEISV - 44)) | (1 << (RebbValParser.ISBN - 44)) | (1 << (RebbValParser.PERCENTAGE - 44)) | (1 << (RebbValParser.BASE64 - 44)) | (1 << (RebbValParser.NUMBER - 44)) | (1 << (RebbValParser.INT - 44)) | (1 << (RebbValParser.FLOAT - 44)) | (1 << (RebbValParser.PHONE - 44)) | (1 << (RebbValParser.MOBILE - 44)) | (1 << (RebbValParser.UUID - 44)) | (1 << (RebbValParser.GBCODE - 44)) | (1 << (RebbValParser.ID - 44)) | (1 << (RebbValParser.PASSPORT - 44)))) !== 0))) {
+	            if(!(((((_la - 45)) & ~0x1f) == 0 && ((1 << (_la - 45)) & ((1 << (RebbValParser.TRUE - 45)) | (1 << (RebbValParser.FALSE - 45)) | (1 << (RebbValParser.LEAPYEAR - 45)) | (1 << (RebbValParser.LEAPDAY - 45)) | (1 << (RebbValParser.DOMAIN - 45)) | (1 << (RebbValParser.EMAIL - 45)) | (1 << (RebbValParser.IPV4 - 45)) | (1 << (RebbValParser.IPV6 - 45)) | (1 << (RebbValParser.PRIVATEIP - 45)) | (1 << (RebbValParser.URL - 45)) | (1 << (RebbValParser.MAC - 45)) | (1 << (RebbValParser.IMEI - 45)) | (1 << (RebbValParser.IMEISV - 45)) | (1 << (RebbValParser.ISBN - 45)) | (1 << (RebbValParser.PERCENTAGE - 45)) | (1 << (RebbValParser.BASE64 - 45)) | (1 << (RebbValParser.NUMBER - 45)) | (1 << (RebbValParser.INT - 45)) | (1 << (RebbValParser.FLOAT - 45)) | (1 << (RebbValParser.PHONE - 45)) | (1 << (RebbValParser.MOBILE - 45)) | (1 << (RebbValParser.UUID - 45)) | (1 << (RebbValParser.GBCODE - 45)) | (1 << (RebbValParser.ID - 45)) | (1 << (RebbValParser.PASSPORT - 45)))) !== 0))) {
 	                localctx.type = this._errHandler.recoverInline(this);
 	            }
 	            else {
@@ -409,13 +410,22 @@ export default class RebbValParser extends antlr4.Parser {
 	            break;
 
 	        case 8:
-	            localctx = new IsHexContext(this, localctx);
+	            localctx = new ArrayIsUniqueContext(this, localctx);
 	            this.enterOuterAlt(localctx, 8);
 	            this.state = 56;
 	            this.match(RebbValParser.T__12);
 	            this.state = 57;
 	            this.match(RebbValParser.T__13);
+	            break;
+
+	        case 9:
+	            localctx = new IsHexContext(this, localctx);
+	            this.enterOuterAlt(localctx, 9);
 	            this.state = 58;
+	            this.match(RebbValParser.T__12);
+	            this.state = 59;
+	            this.match(RebbValParser.T__14);
+	            this.state = 60;
 	            localctx.type = this._input.LT(1);
 	            _la = this._input.LA(1);
 	            if(!(_la===RebbValParser.NUMBER || _la===RebbValParser.COLOR)) {
@@ -427,28 +437,28 @@ export default class RebbValParser extends antlr4.Parser {
 	            }
 	            break;
 
-	        case 9:
+	        case 10:
 	            localctx = new IsCustomContext(this, localctx);
-	            this.enterOuterAlt(localctx, 9);
-	            this.state = 59;
+	            this.enterOuterAlt(localctx, 10);
+	            this.state = 61;
 	            this.match(RebbValParser.T__12);
-	            this.state = 60;
+	            this.state = 62;
 	            localctx.type = this.match(RebbValParser.CustomFunction);
 	            break;
 
-	        case 10:
+	        case 11:
 	            localctx = new MatchContext(this, localctx);
-	            this.enterOuterAlt(localctx, 10);
-	            this.state = 61;
-	            this.match(RebbValParser.T__14);
-	            this.state = 62;
+	            this.enterOuterAlt(localctx, 11);
+	            this.state = 63;
+	            this.match(RebbValParser.T__15);
+	            this.state = 64;
 	            localctx.regex = this.match(RebbValParser.RegularExpressionLiteral);
 	            break;
 
-	        case 11:
+	        case 12:
 	            localctx = new AgeCompareContext(this, localctx);
-	            this.enterOuterAlt(localctx, 11);
-	            this.state = 63;
+	            this.enterOuterAlt(localctx, 12);
+	            this.state = 65;
 	            localctx.op = this._input.LT(1);
 	            _la = this._input.LA(1);
 	            if(!(_la===RebbValParser.OLDER || _la===RebbValParser.YOUNGER)) {
@@ -458,54 +468,54 @@ export default class RebbValParser extends antlr4.Parser {
 	            	this._errHandler.reportMatch(this);
 	                this.consume();
 	            }
-	            this.state = 64;
-	            this.match(RebbValParser.T__15);
-	            this.state = 65;
+	            this.state = 66;
+	            this.match(RebbValParser.T__16);
+	            this.state = 67;
 	            this.expression();
 	            break;
 
-	        case 12:
+	        case 13:
 	            localctx = new StringPositionContext(this, localctx);
-	            this.enterOuterAlt(localctx, 12);
-	            this.state = 66;
+	            this.enterOuterAlt(localctx, 13);
+	            this.state = 68;
 	            localctx.op = this._input.LT(1);
 	            _la = this._input.LA(1);
-	            if(!(_la===RebbValParser.T__16 || _la===RebbValParser.T__17)) {
+	            if(!(_la===RebbValParser.T__17 || _la===RebbValParser.T__18)) {
 	                localctx.op = this._errHandler.recoverInline(this);
 	            }
 	            else {
 	            	this._errHandler.reportMatch(this);
 	                this.consume();
 	            }
-	            this.state = 67;
-	            this.match(RebbValParser.T__18);
-	            this.state = 68;
+	            this.state = 69;
+	            this.match(RebbValParser.T__19);
+	            this.state = 70;
 	            this.expression();
 	            break;
 
-	        case 13:
+	        case 14:
 	            localctx = new IntervalContext(this, localctx);
-	            this.enterOuterAlt(localctx, 13);
-	            this.state = 69;
+	            this.enterOuterAlt(localctx, 14);
+	            this.state = 71;
 	            localctx.start = this._input.LT(1);
 	            _la = this._input.LA(1);
-	            if(!((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << RebbValParser.T__3) | (1 << RebbValParser.T__19) | (1 << RebbValParser.T__20))) !== 0))) {
+	            if(!((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << RebbValParser.T__3) | (1 << RebbValParser.T__20) | (1 << RebbValParser.T__21))) !== 0))) {
 	                localctx.start = this._errHandler.recoverInline(this);
 	            }
 	            else {
 	            	this._errHandler.reportMatch(this);
 	                this.consume();
 	            }
-	            this.state = 70;
-	            this.expression();
-	            this.state = 71;
-	            this.match(RebbValParser.T__21);
 	            this.state = 72;
 	            this.expression();
 	            this.state = 73;
+	            this.match(RebbValParser.T__22);
+	            this.state = 74;
+	            this.expression();
+	            this.state = 75;
 	            localctx.end = this._input.LT(1);
 	            _la = this._input.LA(1);
-	            if(!((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << RebbValParser.T__4) | (1 << RebbValParser.T__19) | (1 << RebbValParser.T__20))) !== 0))) {
+	            if(!((((_la) & ~0x1f) == 0 && ((1 << _la) & ((1 << RebbValParser.T__4) | (1 << RebbValParser.T__20) | (1 << RebbValParser.T__21))) !== 0))) {
 	                localctx.end = this._errHandler.recoverInline(this);
 	            }
 	            else {
@@ -514,38 +524,38 @@ export default class RebbValParser extends antlr4.Parser {
 	            }
 	            break;
 
-	        case 14:
+	        case 15:
 	            localctx = new ArrayContext(this, localctx);
-	            this.enterOuterAlt(localctx, 14);
-	            this.state = 75;
+	            this.enterOuterAlt(localctx, 15);
+	            this.state = 77;
 	            this.arrayLiteral();
 	            break;
 
-	        case 15:
+	        case 16:
 	            localctx = new StringContext(this, localctx);
-	            this.enterOuterAlt(localctx, 15);
-	            this.state = 76;
+	            this.enterOuterAlt(localctx, 16);
+	            this.state = 78;
 	            this.match(RebbValParser.StringLiteral);
 	            break;
 
-	        case 16:
+	        case 17:
 	            localctx = new NumberContext(this, localctx);
-	            this.enterOuterAlt(localctx, 16);
-	            this.state = 77;
+	            this.enterOuterAlt(localctx, 17);
+	            this.state = 79;
 	            this.match(RebbValParser.NumbericLiteral);
 	            break;
 
-	        case 17:
+	        case 18:
 	            localctx = new DateContext(this, localctx);
-	            this.enterOuterAlt(localctx, 17);
-	            this.state = 78;
+	            this.enterOuterAlt(localctx, 18);
+	            this.state = 80;
 	            this.match(RebbValParser.DateLiteral);
 	            break;
 
-	        case 18:
+	        case 19:
 	            localctx = new TimeContext(this, localctx);
-	            this.enterOuterAlt(localctx, 18);
-	            this.state = 79;
+	            this.enterOuterAlt(localctx, 19);
+	            this.state = 81;
 	            this.match(RebbValParser.TimeLiteral);
 	            break;
 
@@ -572,24 +582,24 @@ export default class RebbValParser extends antlr4.Parser {
 	    var _la = 0; // Token type
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 82;
-	        this.match(RebbValParser.T__20);
-	        this.state = 83;
+	        this.state = 84;
+	        this.match(RebbValParser.T__21);
+	        this.state = 85;
 	        this.match(RebbValParser.NumbericLiteral);
-	        this.state = 88;
+	        this.state = 90;
 	        this._errHandler.sync(this);
 	        _la = this._input.LA(1);
-	        while(_la===RebbValParser.T__22) {
-	            this.state = 84;
-	            this.match(RebbValParser.T__22);
-	            this.state = 85;
+	        while(_la===RebbValParser.T__23) {
+	            this.state = 86;
+	            this.match(RebbValParser.T__23);
+	            this.state = 87;
 	            this.match(RebbValParser.NumbericLiteral);
-	            this.state = 90;
+	            this.state = 92;
 	            this._errHandler.sync(this);
 	            _la = this._input.LA(1);
 	        }
-	        this.state = 91;
-	        this.match(RebbValParser.T__19);
+	        this.state = 93;
+	        this.match(RebbValParser.T__20);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
 		        localctx.exception = re;
@@ -631,55 +641,56 @@ RebbValParser.T__19 = 20;
 RebbValParser.T__20 = 21;
 RebbValParser.T__21 = 22;
 RebbValParser.T__22 = 23;
-RebbValParser.RegularExpressionLiteral = 24;
-RebbValParser.StringLiteral = 25;
-RebbValParser.NumbericLiteral = 26;
-RebbValParser.DateLiteral = 27;
-RebbValParser.TimeLiteral = 28;
-RebbValParser.DIGITS = 29;
-RebbValParser.YEAR = 30;
-RebbValParser.MONTH = 31;
-RebbValParser.DAY = 32;
-RebbValParser.HOUR = 33;
-RebbValParser.MINUTE = 34;
-RebbValParser.SECOND = 35;
-RebbValParser.EQUAL = 36;
-RebbValParser.NEQUAL = 37;
-RebbValParser.LT = 38;
-RebbValParser.LTE = 39;
-RebbValParser.GT = 40;
-RebbValParser.GTE = 41;
-RebbValParser.OLDER = 42;
-RebbValParser.YOUNGER = 43;
-RebbValParser.TRUE = 44;
-RebbValParser.FALSE = 45;
-RebbValParser.LEAPYEAR = 46;
-RebbValParser.LEAPDAY = 47;
-RebbValParser.DOMAIN = 48;
-RebbValParser.EMAIL = 49;
-RebbValParser.IPV4 = 50;
-RebbValParser.IPV6 = 51;
-RebbValParser.PRIVATEIP = 52;
-RebbValParser.URL = 53;
-RebbValParser.MAC = 54;
-RebbValParser.IMEI = 55;
-RebbValParser.IMEISV = 56;
-RebbValParser.ISBN = 57;
-RebbValParser.PERCENTAGE = 58;
-RebbValParser.BASE64 = 59;
-RebbValParser.NUMBER = 60;
-RebbValParser.INT = 61;
-RebbValParser.FLOAT = 62;
-RebbValParser.COLOR = 63;
-RebbValParser.PHONE = 64;
-RebbValParser.MOBILE = 65;
-RebbValParser.UUID = 66;
-RebbValParser.GBCODE = 67;
-RebbValParser.ID = 68;
-RebbValParser.PASSPORT = 69;
-RebbValParser.CustomFunction = 70;
-RebbValParser.NEWLINE = 71;
-RebbValParser.WS = 72;
+RebbValParser.T__23 = 24;
+RebbValParser.RegularExpressionLiteral = 25;
+RebbValParser.StringLiteral = 26;
+RebbValParser.NumbericLiteral = 27;
+RebbValParser.DateLiteral = 28;
+RebbValParser.TimeLiteral = 29;
+RebbValParser.DIGITS = 30;
+RebbValParser.YEAR = 31;
+RebbValParser.MONTH = 32;
+RebbValParser.DAY = 33;
+RebbValParser.HOUR = 34;
+RebbValParser.MINUTE = 35;
+RebbValParser.SECOND = 36;
+RebbValParser.EQUAL = 37;
+RebbValParser.NEQUAL = 38;
+RebbValParser.LT = 39;
+RebbValParser.LTE = 40;
+RebbValParser.GT = 41;
+RebbValParser.GTE = 42;
+RebbValParser.OLDER = 43;
+RebbValParser.YOUNGER = 44;
+RebbValParser.TRUE = 45;
+RebbValParser.FALSE = 46;
+RebbValParser.LEAPYEAR = 47;
+RebbValParser.LEAPDAY = 48;
+RebbValParser.DOMAIN = 49;
+RebbValParser.EMAIL = 50;
+RebbValParser.IPV4 = 51;
+RebbValParser.IPV6 = 52;
+RebbValParser.PRIVATEIP = 53;
+RebbValParser.URL = 54;
+RebbValParser.MAC = 55;
+RebbValParser.IMEI = 56;
+RebbValParser.IMEISV = 57;
+RebbValParser.ISBN = 58;
+RebbValParser.PERCENTAGE = 59;
+RebbValParser.BASE64 = 60;
+RebbValParser.NUMBER = 61;
+RebbValParser.INT = 62;
+RebbValParser.FLOAT = 63;
+RebbValParser.COLOR = 64;
+RebbValParser.PHONE = 65;
+RebbValParser.MOBILE = 66;
+RebbValParser.UUID = 67;
+RebbValParser.GBCODE = 68;
+RebbValParser.ID = 69;
+RebbValParser.PASSPORT = 70;
+RebbValParser.CustomFunction = 71;
+RebbValParser.NEWLINE = 72;
+RebbValParser.WS = 73;
 
 RebbValParser.RULE_unaryTests = 0;
 RebbValParser.RULE_unaryTest = 1;
@@ -1172,6 +1183,39 @@ class InContext extends ExpressionContext {
 }
 
 RebbValParser.InContext = InContext;
+
+class ArrayIsUniqueContext extends ExpressionContext {
+
+    constructor(parser, ctx) {
+        super(parser);
+        super.copyFrom(ctx);
+    }
+
+
+	enterRule(listener) {
+	    if(listener instanceof RebbValListener ) {
+	        listener.enterArrayIsUnique(this);
+		}
+	}
+
+	exitRule(listener) {
+	    if(listener instanceof RebbValListener ) {
+	        listener.exitArrayIsUnique(this);
+		}
+	}
+
+	accept(visitor) {
+	    if ( visitor instanceof RebbValVisitor ) {
+	        return visitor.visitArrayIsUnique(this);
+	    } else {
+	        return visitor.visitChildren(this);
+	    }
+	}
+
+
+}
+
+RebbValParser.ArrayIsUniqueContext = ArrayIsUniqueContext;
 
 class IsCustomContext extends ExpressionContext {
 
